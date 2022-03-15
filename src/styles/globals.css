@@ -1,0 +1,9 @@
+a, button:focus{
+  box-shadow: none !important;
+}
+/* #noteBox:empty:before{
+  content: attr(placeholder);
+  color:gray;
+  pointer-events: none;
+  display: block;
+} */
