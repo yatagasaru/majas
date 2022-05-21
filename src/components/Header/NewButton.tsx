@@ -8,14 +8,14 @@ import useNote from '../../hooks/useNote'
 
 const NewButton = () => {
   const {active} = usePath()
-  const {setCurrentNoteId} = useNote()
+  const {clearCurrent} = useNote()
 
   if (active === 'new') return null
   else {
     return (
       <NextLink href="/new" passHref>
         <IconButton
-          onClick={() => setCurrentNoteId('')}
+          onClick={clearCurrent}
           as="a"
           variant="ghost"
           colorScheme="primary"

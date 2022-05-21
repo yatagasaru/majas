@@ -1,4 +1,5 @@
-type Key = 'Notes' | 'RecentlyOpenedNotes'
+export const keys = ['Notes', 'RecentlyOpenedNotes'] as const
+export type Key = typeof keys[number]
 
 const PREFIX = 'majas-notes-app-'
 

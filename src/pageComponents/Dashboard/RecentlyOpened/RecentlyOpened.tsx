@@ -4,7 +4,7 @@ import {VerticalNoteCard} from '../../../components/NoteCard'
 import useNote from '../../../hooks/useNote'
 
 const RecentlyOpened = () => {
-  const {getRecentlyOpenedNotes} = useNote()
+  const {recentlyOpenedNotes} = useNote()
 
   return (
     <Box w="300px">
@@ -13,7 +13,7 @@ const RecentlyOpened = () => {
           Recently Opened
         </Text>
         <VStack alignItems="stretch" h="100%" spacing="4" pb="6" pt="2">
-          {getRecentlyOpenedNotes().map(note => (
+          {recentlyOpenedNotes.map(note => (
             <VerticalNoteCard key={note.id} note={note} />
           ))}
         </VStack>

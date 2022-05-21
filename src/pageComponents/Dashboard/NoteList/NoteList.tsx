@@ -7,14 +7,14 @@ import {HorizontalNoteCard} from '../../../components/NoteCard'
 import useNote from '../../../hooks/useNote'
 
 const RecentlyOpened = () => {
-  const {getNotes} = useNote()
+  const {notes} = useNote()
 
   return (
     <Box w="100%" ml="4">
       <Box w="100%" h="100%" p="4" bgColor="primary.50" rounded="3xl">
         <SimpleBar style={{height: '100%'}}>
           <Wrap overflow="hidden">
-            {getNotes().map(note => (
+            {notes.map(note => (
               <WrapItem key={note.id}>
                 <HorizontalNoteCard note={note} />
               </WrapItem>

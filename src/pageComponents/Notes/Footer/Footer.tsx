@@ -3,7 +3,7 @@ import {Box, Text} from '@chakra-ui/react'
 import useNote from '../../../hooks/useNote'
 
 const Footer = () => {
-  const {charCount} = useNote()
+  const {currentNoteCharCount} = useNote()
 
   return (
     <Box
@@ -17,7 +17,7 @@ const Footer = () => {
       rounded="md"
     >
       <Text>
-        {charCount} character{charCount > 1 ? 's' : ''}
+        {currentNoteCharCount} character{currentNoteCharCount > 1 ? 's' : ''}
       </Text>
     </Box>
   )

@@ -2,7 +2,7 @@ import React from 'react'
 import {Box, Text} from '@chakra-ui/react'
 import NextLink from 'next/link'
 
-import {Note} from '../../helpers/storageAdapter'
+import {Note} from '../../hooks/useStorage'
 import dayjs from '../../helpers/dayjs'
 
 const VerticalNoteCard = ({note}: {note: Note}) => {

@@ -1,6 +1,13 @@
 a, button:focus{
   box-shadow: none !important;
 }
+
+.editorInput{
+  padding: var(--chakra-space-3);
+}
+.editorInput:focus-visible{
+  outline: none;
+}
 /* #noteBox:empty:before{
   content: attr(placeholder);
   color:gray;

@@ -2,7 +2,7 @@ import React from 'react'
 import {Box, Text} from '@chakra-ui/react'
 import NextLink from 'next/link'
 
-import {Note} from '../../helpers/storageAdapter'
+import {Note} from '../../hooks/useStorage'
 import dayjs from '../../helpers/dayjs'
 // import MoreHorizontal from '../../assets/svgs/MoreHorizontal'
 import NoteOption from '../NoteOption'
@@ -42,7 +42,7 @@ const HorizontalNoteCard = ({note}: {note: Note}) => {
           </Text>
         </Box>
       </NextLink>
-      <NoteOption pos="absolute" bottom="1" right="3" />
+      <NoteOption noteId={note.id} pos="absolute" bottom="1" right="3" />
     </Box>
   )
 }

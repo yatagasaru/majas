@@ -7,10 +7,10 @@ import useNote from '../../../hooks/useNote'
 
 const BackButton = () => {
   const router = useRouter()
-  const {setCurrentNoteId} = useNote()
+  const {clearCurrent} = useNote()
 
   const onBack = () => {
-    setCurrentNoteId('')
+    clearCurrent()
     router.replace('/')
   }
 

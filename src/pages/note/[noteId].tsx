@@ -5,24 +5,24 @@ import {useRouter} from 'next/router'
 import Layout from '../../components/Layout'
 import BackButton from '../../pageComponents/Notes/BackButton'
 import Footer from '../../pageComponents/Notes/Footer'
-import TextBox from '../../pageComponents/Notes/TextBox'
 import FullPageLoading from '../../components/FullPageLoading'
-import {getNote} from '../../helpers/storageAdapter'
+import Editor from '../../pageComponents/Notes/Editor'
 import useNote from '../../hooks/useNote'
 
 const Note = () => {
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
-  const {setCurrentNoteId} = useNote()
+  const {getNote} = useNote()
 
   const {noteId} = router.query
 
   useEffect(() => {
     if (noteId) {
-      if (!getNote(noteId as string)) {
+      const isNoteExist = getNote(noteId as string)
+
+      if (!isNoteExist) {
         router.replace('/new')
       } else {
-        setCurrentNoteId(noteId as string)
         setIsLoading(false)
       }
     }
@@ -34,7 +34,7 @@ const Note = () => {
     <Layout>
       <Container maxW="container.md" h="100%" overflow="hidden">
         <BackButton />
-        <TextBox />
+        <Editor />
       </Container>
       <Footer />
     </Layout>

@@ -8,7 +8,7 @@ import '@fontsource/urbanist/variable.css'
 import {primary} from '../helpers/colors'
 import '../styles/globals.css'
 import Header from '../components/Header'
-import {initStorage} from '../helpers/storageAdapter'
+import useStorage from '../hooks/useStorage'
 
 const theme = extendTheme({
   fonts: {
@@ -21,6 +21,8 @@ const theme = extendTheme({
 })
 
 function MyApp({Component, pageProps}: AppProps) {
+  const {initStorage} = useStorage()
+
   useEffect(() => {
     initStorage()
   }, [])
