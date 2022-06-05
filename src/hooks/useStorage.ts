@@ -1,5 +1,6 @@
 import {createGlobalState} from 'react-hooks-global-state'
 import {readNote, writeNoteToStorage} from '../helpers/storage'
+import useFullTextSearch from './useFullTextSearch'
 import useNote from './useNote'
 
 export type Note = {
@@ -26,6 +27,7 @@ const {useGlobalState} = createGlobalState(initialState)
 
 const useStorage = () => {
   const {setNotes, setRecentlyOpenedNotes} = useNote()
+  const {initSearchIndex} = useFullTextSearch()
 
   const [isInitialized, setIsInitialized] = useGlobalState('isInitialized')
 
@@ -37,7 +39,10 @@ const useStorage = () => {
     try {
       notes = readNote('Notes')
       if (!notes.length) writeNoteToStorage('Notes', [])
-      else setNotes(notes)
+      else {
+        setNotes(notes)
+        initSearchIndex(notes)
+      }
     } catch (err) {
       writeNoteToStorage('Notes', [])
     }
