@@ -57,7 +57,6 @@ const useNote = () => {
   const writeNote = async (text: string) => {
     if (!currentNoteId) {
       //create new note
-
       const date = new Date().toISOString()
       const id = await generate()
 
@@ -76,15 +75,19 @@ const useNote = () => {
       updateRecentlyOpened(newNote)
     } else {
       //update existing note
+      const updatedAt = new Date().toISOString()
 
       const newNotes = notes.map(note =>
-        note.id === currentNoteId
-          ? {...note, updatedAt: new Date().toISOString(), text}
-          : note
+        note.id === currentNoteId ? {...note, updatedAt, text} : note
       )
 
       setNotes(newNotes)
       writeNoteToStorage('Notes', newNotes)
+
+      const newRecentlyOpened = recentlyOpenedNotes
+      newRecentlyOpened[0].text = text
+      newRecentlyOpened[0].updatedAt = updatedAt
+      setRecentlyOpenedNotes(newRecentlyOpened)
     }
   }
 

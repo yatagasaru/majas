@@ -70,11 +70,9 @@ const Editor = () => {
   const onChange = (editorState: EditorState) => {
     editorState.read(() => {
       const root = $getRoot()
-      console.log(root.__cachedText)
       writeNote(root.__cachedText || '')
       setCurrentNoteCharCount(root.__cachedText || '')
     })
-    console.log(editorState.toJSON())
   }
 
   return (
