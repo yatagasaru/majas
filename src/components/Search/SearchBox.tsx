@@ -2,10 +2,10 @@ import React from 'react'
 import {Box, InputGroup, InputLeftElement, Input} from '@chakra-ui/react'
 
 import SearchIcon from '../../assets/svgs/SearchIcon'
-import useFullTextSearch from '../../hooks/useFullTextSearch'
+import useNote from '../../hooks/useNote'
 
 const SearchBox = () => {
-  const {search} = useFullTextSearch()
+  const {search} = useNote()
 
   return (
     <Box>

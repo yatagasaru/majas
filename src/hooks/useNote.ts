@@ -1,5 +1,8 @@
 import {useEffect} from 'react'
 import {createGlobalState} from 'react-hooks-global-state'
+import {Index} from 'flexsearch'
+import {debounce} from 'throttle-debounce'
+
 import {countCharLength} from '../helpers/string'
 import {Note} from './useStorage'
 import {generate} from '../helpers/nanoid'
@@ -11,6 +14,11 @@ type InitialState = {
   recentlyOpenedNotes: Note[]
   currentNoteId: string
   currentNote: Note | null
+  isIndexBuilding: boolean
+  isIndexSearching: boolean
+  isIndexAdding: boolean
+  index: Index | null
+  searchResults: Note[]
 }
 
 const initialState: InitialState = {
@@ -18,7 +26,12 @@ const initialState: InitialState = {
   notes: [],
   recentlyOpenedNotes: [],
   currentNoteId: '',
-  currentNote: null
+  currentNote: null,
+  isIndexBuilding: false,
+  isIndexSearching: false,
+  isIndexAdding: false,
+  index: null,
+  searchResults: []
 }
 
 const {useGlobalState} = createGlobalState(initialState)
@@ -33,6 +46,14 @@ const useNote = () => {
   )
   const [currentNoteId, setCurrentNoteId] = useGlobalState('currentNoteId')
   const [currentNote, setCurrentNote] = useGlobalState('currentNote')
+
+  const [isIndexBuilding, setIsIndexBuilding] =
+    useGlobalState('isIndexBuilding')
+  const [isIndexSearching, setIsIndexSearching] =
+    useGlobalState('isIndexSearching')
+  const [isIndexAdding, setIsIndexAdding] = useGlobalState('isIndexAdding')
+  const [searchResults, setSearchResults] = useGlobalState('searchResults')
+  const [index, setIndex] = useGlobalState('index')
 
   useEffect(() => {
     return () => _setCurrentNoteCharCount(0)
@@ -73,6 +94,8 @@ const useNote = () => {
       setNotes(newNotes)
       writeNoteToStorage('Notes', newNotes)
       updateRecentlyOpened(newNote)
+
+      await addIndex(id, text)
     } else {
       //update existing note
       const updatedAt = new Date().toISOString()
@@ -88,6 +111,8 @@ const useNote = () => {
       newRecentlyOpened[0].text = text
       newRecentlyOpened[0].updatedAt = updatedAt
       setRecentlyOpenedNotes(newRecentlyOpened)
+
+      await updateIndex(currentNoteId, text)
     }
   }
 
@@ -107,6 +132,8 @@ const useNote = () => {
       'RecentlyOpenedNotes',
       updatedRecentlyOpened.map(recentNote => recentNote.id)
     )
+
+    removeIndex(id)
   }
 
   const updateRecentlyOpened = (note: Note) => {
@@ -139,12 +166,69 @@ const useNote = () => {
     _setCurrentNoteCharCount(0)
   }
 
+  const initSearchIndex = async (docs: Note[]) => {
+    if (index instanceof Index) return
+
+    setIsIndexBuilding(true)
+
+    const idx = new Index({
+      charset: 'latin:advanced',
+      tokenize: 'reverse',
+      cache: true
+    })
+    for (const note of docs) {
+      await idx.addAsync(note.id, note.text)
+    }
+
+    setIndex(idx)
+    setIsIndexBuilding(false)
+  }
+
+  const search = debounce(150, (serchVal: string) => {
+    if (!index) return
+
+    setIsIndexSearching(true)
+
+    const res = index.search(serchVal)
+
+    const results = res.map(id => notes.find(note => note.id === id) as Note)
+
+    setSearchResults(results)
+    setIsIndexSearching(false)
+  })
+
+  const addIndex = async (id: string, text: string) => {
+    if (!index) return
+
+    setIsIndexAdding(true)
+
+    await index.addAsync(id, text)
+
+    setIsIndexAdding(false)
+  }
+
+  const updateIndex = async (id: string, text: string) => {
+    if (!index) return
+
+    await index.updateAsync(id, text)
+  }
+
+  const removeIndex = async (id: string) => {
+    if (!index) return
+
+    await index.removeAsync(id)
+  }
+
   return {
     currentNoteCharCount,
     notes,
     recentlyOpenedNotes,
     currentNoteId,
     currentNote,
+    isIndexBuilding,
+    isIndexAdding,
+    isIndexSearching,
+    searchResults,
     setNotes,
     setRecentlyOpenedNotes,
     setCurrentNoteCharCount,
@@ -152,7 +236,10 @@ const useNote = () => {
     getNote,
     writeNote,
     removeNote,
-    clearCurrent
+    clearCurrent,
+    initSearchIndex,
+    search,
+    setSearchResults
   }
 }
 
