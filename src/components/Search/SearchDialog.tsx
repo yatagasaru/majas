@@ -56,6 +56,7 @@ const SearchDialog = (props: Props) => {
                       p="3"
                       rounded="lg"
                       _hover={{bgColor: 'primary.50'}}
+                      transition=".2s ease"
                     >
                       <Box
                         display="flex"

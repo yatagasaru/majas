@@ -184,12 +184,12 @@ const useNote = () => {
     setIsIndexBuilding(false)
   }
 
-  const search = debounce(150, (serchVal: string) => {
+  const search = debounce(150, async (serchVal: string) => {
     if (!index) return
 
     setIsIndexSearching(true)
 
-    const res = index.search(serchVal)
+    const res = await index.searchAsync(serchVal)
 
     const results = res.map(id => notes.find(note => note.id === id) as Note)
 
