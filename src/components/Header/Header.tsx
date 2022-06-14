@@ -1,6 +1,7 @@
 import React from 'react'
 import {Box, Container, Heading} from '@chakra-ui/react'
 import NewButton from './NewButton'
+import Search from '../Search'
 
 export const HEADER_HEIGHT = 72
 
@@ -22,6 +23,7 @@ const Header = () => {
         <Heading as="h1" size="md" color="primary.600">
           M A J A S
         </Heading>
+        <Search />
         <NewButton />
       </Container>
     </Box>

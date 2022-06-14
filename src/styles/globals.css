@@ -1,4 +1,4 @@
-a, button:focus{
+a, input, button:focus{
   box-shadow: none !important;
 }
 

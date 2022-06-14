@@ -25,7 +25,7 @@ const initialState: InitialState = {
 const {useGlobalState} = createGlobalState(initialState)
 
 const useStorage = () => {
-  const {setNotes, setRecentlyOpenedNotes} = useNote()
+  const {setNotes, setRecentlyOpenedNotes, initSearchIndex} = useNote()
 
   const [isInitialized, setIsInitialized] = useGlobalState('isInitialized')
 
@@ -37,7 +37,10 @@ const useStorage = () => {
     try {
       notes = readNote('Notes')
       if (!notes.length) writeNoteToStorage('Notes', [])
-      else setNotes(notes)
+      else {
+        setNotes(notes)
+        initSearchIndex(notes)
+      }
     } catch (err) {
       writeNoteToStorage('Notes', [])
     }
