@@ -5,11 +5,11 @@ import {
   $getRoot,
   EditorState
 } from 'lexical'
-import LexicalComposer from '@lexical/react/LexicalComposer'
-import LexicalPlainTextPlugin from '@lexical/react/LexicalPlainTextPlugin'
-import LexicalContentEditable from '@lexical/react/LexicalContentEditable'
-import LexicalOnChangePlugin from '@lexical/react/LexicalOnChangePlugin'
-import LexicalAutoScrollPlugin from '@lexical/react/LexicalAutoScrollPlugin'
+import {LexicalComposer} from '@lexical/react/LexicalComposer'
+import {PlainTextPlugin} from '@lexical/react/LexicalPlainTextPlugin'
+import {ContentEditable} from '@lexical/react/LexicalContentEditable'
+import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin'
+import {AutoScrollPlugin} from '@lexical/react/LexicalAutoScrollPlugin'
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
 import {Box} from '@chakra-ui/react'
 import SimpleBar from 'simplebar-react'
@@ -63,6 +63,7 @@ const Editor = () => {
 
   const simpleBarScrollRef = useRef(null)
   const initialConfig = {
+    namespace: 'MajasEditor',
     theme,
     onError
   }
@@ -83,15 +84,13 @@ const Editor = () => {
           scrollableNodeProps={{ref: simpleBarScrollRef}}
         >
           <Box rounded="md" bgColor="primary.50" fontWeight={400}>
-            <LexicalPlainTextPlugin
-              contentEditable={
-                <LexicalContentEditable className="editorInput" />
-              }
+            <PlainTextPlugin
+              contentEditable={<ContentEditable className="editorInput" />}
               placeholder={null}
             />
-            <LexicalOnChangePlugin onChange={onChange} />
+            <OnChangePlugin onChange={onChange} />
             <MyCustomAutoFocusPlugin />
-            <LexicalAutoScrollPlugin scrollRef={simpleBarScrollRef} />
+            <AutoScrollPlugin scrollRef={simpleBarScrollRef} />
             <MyCustomNoteInit />
           </Box>
         </SimpleBar>
