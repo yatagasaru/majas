@@ -8,6 +8,7 @@ a, input, button:focus{
 .editorInput:focus-visible{
   outline: none;
 }
+
 /* #noteBox:empty:before{
   content: attr(placeholder);
   color:gray;

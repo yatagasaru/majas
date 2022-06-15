@@ -1,4 +1,6 @@
 import React, {useEffect, useRef} from 'react'
+import {Box} from '@chakra-ui/react'
+import SimpleBar from 'simplebar-react'
 import {
   $createParagraphNode,
   $createTextNode,
@@ -11,8 +13,8 @@ import {ContentEditable} from '@lexical/react/LexicalContentEditable'
 import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin'
 import {AutoScrollPlugin} from '@lexical/react/LexicalAutoScrollPlugin'
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
-import {Box} from '@chakra-ui/react'
-import SimpleBar from 'simplebar-react'
+
+import 'simplebar/dist/simplebar.min.css'
 import useNote from '../../../hooks/useNote'
 
 const theme = {
@@ -27,7 +29,6 @@ const MyCustomAutoFocusPlugin = () => {
 
   useEffect(() => {
     editor.focus()
-    console.log(editor.getEditorState().toJSON())
   }, [editor])
 
   return null

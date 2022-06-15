@@ -1,5 +1,6 @@
 import React from 'react'
 import {Box, Wrap, WrapItem} from '@chakra-ui/react'
+
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 

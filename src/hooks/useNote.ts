@@ -122,8 +122,6 @@ const useNote = () => {
       note => note.id !== id
     )
 
-    console.log('updatedRecentlyOpened', updatedRecentlyOpened)
-
     setNotes(updatedNotes)
     setRecentlyOpenedNotes(updatedRecentlyOpened)
 
