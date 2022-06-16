@@ -9,10 +9,10 @@ import {
 } from '@chakra-ui/react'
 
 import SearchIcon from '../../assets/svgs/SearchIcon'
-import useNote from '../../hooks/useNote'
+import useSearch from '../../hooks/useSearch'
 
 const SearchBox = () => {
-  const {search, setSearchResults, isIndexSearching} = useNote()
+  const {search, setSearchResults, isIndexSearching} = useSearch()
 
   const handleSearch = (searchVal: string) => {
     if (!searchVal || !searchVal.length) {

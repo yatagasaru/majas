@@ -1,7 +1,6 @@
 import {useEffect} from 'react'
 import {createGlobalState} from 'react-hooks-global-state'
 import {Index} from 'flexsearch'
-import {debounce} from 'throttle-debounce'
 
 import {countCharLength} from '../helpers/string'
 import {Note} from './useStorage'
@@ -15,10 +14,8 @@ type InitialState = {
   currentNoteId: string
   currentNote: Note | null
   isIndexBuilding: boolean
-  isIndexSearching: boolean
   isIndexAdding: boolean
   index: Index | null
-  searchResults: Note[]
 }
 
 const initialState: InitialState = {
@@ -28,10 +25,8 @@ const initialState: InitialState = {
   currentNoteId: '',
   currentNote: null,
   isIndexBuilding: false,
-  isIndexSearching: false,
   isIndexAdding: false,
-  index: null,
-  searchResults: []
+  index: null
 }
 
 const {useGlobalState} = createGlobalState(initialState)
@@ -49,10 +44,7 @@ const useNote = () => {
 
   const [isIndexBuilding, setIsIndexBuilding] =
     useGlobalState('isIndexBuilding')
-  const [isIndexSearching, setIsIndexSearching] =
-    useGlobalState('isIndexSearching')
   const [isIndexAdding, setIsIndexAdding] = useGlobalState('isIndexAdding')
-  const [searchResults, setSearchResults] = useGlobalState('searchResults')
   const [index, setIndex] = useGlobalState('index')
 
   useEffect(() => {
@@ -182,19 +174,6 @@ const useNote = () => {
     setIsIndexBuilding(false)
   }
 
-  const search = debounce(150, async (serchVal: string) => {
-    if (!index) return
-
-    setIsIndexSearching(true)
-
-    const res = await index.searchAsync(serchVal)
-
-    const results = res.map(id => notes.find(note => note.id === id) as Note)
-
-    setSearchResults(results)
-    setIsIndexSearching(false)
-  })
-
   const addIndex = async (id: string, text: string) => {
     if (!index) return
 
@@ -225,8 +204,7 @@ const useNote = () => {
     currentNote,
     isIndexBuilding,
     isIndexAdding,
-    isIndexSearching,
-    searchResults,
+    index,
     setNotes,
     setRecentlyOpenedNotes,
     setCurrentNoteCharCount,
@@ -235,9 +213,7 @@ const useNote = () => {
     writeNote,
     removeNote,
     clearCurrent,
-    initSearchIndex,
-    search,
-    setSearchResults
+    initSearchIndex
   }
 }
 
