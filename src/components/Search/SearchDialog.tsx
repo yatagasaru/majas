@@ -11,9 +11,9 @@ import {
 import NextLink from 'next/link'
 
 import SearchBox from './SearchBox'
-import useNote from '../../hooks/useNote'
 import SimpleBar from 'simplebar-react'
 import dayjs from '../../helpers/dayjs'
+import useSearch from '../../hooks/useSearch'
 
 type Props = {
   isOpen: boolean
@@ -23,7 +23,7 @@ type Props = {
 const SearchDialog = (props: Props) => {
   const {isOpen, onClose} = props
 
-  const {searchResults, setSearchResults} = useNote()
+  const {searchResults, setSearchResults} = useSearch()
 
   const onModalClose = () => {
     setSearchResults([])
