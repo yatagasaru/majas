@@ -3,7 +3,6 @@ import {Box, Wrap, WrapItem} from '@chakra-ui/react'
 import {createGlobalState} from 'react-hooks-global-state'
 
 import SimpleBar from 'simplebar-react'
-import 'simplebar/dist/simplebar.min.css'
 
 import {HorizontalNoteCard} from '../../../components/NoteCard'
 import useNote from '../../../hooks/useNote'

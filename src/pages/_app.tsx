@@ -4,6 +4,7 @@ import {ChakraProvider, extendTheme} from '@chakra-ui/react'
 
 import '@fontsource/urbanist/300.css'
 import '@fontsource/urbanist/variable.css'
+import 'simplebar/dist/simplebar.min.css'
 
 import {primary} from '../helpers/colors'
 import '../styles/globals.css'

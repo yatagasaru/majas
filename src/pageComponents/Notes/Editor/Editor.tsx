@@ -14,7 +14,6 @@ import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin'
 import {AutoScrollPlugin} from '@lexical/react/LexicalAutoScrollPlugin'
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
 
-import 'simplebar/dist/simplebar.min.css'
 import useNote from '../../../hooks/useNote'
 
 const theme = {
