@@ -1,4 +1,7 @@
 import {createGlobalState} from 'react-hooks-global-state'
+import {uniqueNamesGenerator, adjectives, animals} from 'unique-names-generator'
+import {getItem, setItem} from '../helpers/localStorage'
+
 import {readNote, writeNoteToStorage} from '../helpers/storage'
 import useNote from './useNote'
 
@@ -7,6 +10,12 @@ export type Note = {
   createdAt: string
   updatedAt: string
   text: string
+}
+
+export type ImportMeta = {
+  createdAt: string
+  deviceName: string
+  importedAt: string
 }
 
 export interface NotesDB {
@@ -64,6 +73,19 @@ const useStorage = () => {
       }
     } catch {
       writeNoteToStorage('RecentlyOpenedNotes', [])
+    }
+
+    const name = getItem('DeviceName')
+
+    if (!name) {
+      const deviceName: string = uniqueNamesGenerator({
+        dictionaries: [adjectives, animals],
+        separator: ' ',
+        length: 2,
+        style: 'capital'
+      })
+
+      setItem('DeviceName', deviceName)
     }
 
     setIsInitialized(true)

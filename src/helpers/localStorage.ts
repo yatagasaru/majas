@@ -1,4 +1,9 @@
-export const keys = ['Notes', 'RecentlyOpenedNotes'] as const
+export const keys = [
+  'Notes',
+  'RecentlyOpenedNotes',
+  'DeviceName',
+  'ImportMeta'
+] as const
 export type Key = typeof keys[number]
 
 const PREFIX = 'majas-notes-app-'
