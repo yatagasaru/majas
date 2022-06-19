@@ -1,7 +1,8 @@
 import React from 'react'
-import {Box, Container, Heading} from '@chakra-ui/react'
+import {Box, Container, Heading, HStack} from '@chakra-ui/react'
 import NewButton from './NewButton'
 import Search from '../Search'
+import MoreButton from './MoreButton'
 
 export const HEADER_HEIGHT = 72
 
@@ -24,7 +25,10 @@ const Header = () => {
           M A J A S
         </Heading>
         <Search />
-        <NewButton />
+        <HStack display="flex">
+          <NewButton />
+          <MoreButton />
+        </HStack>
       </Container>
     </Box>
   )

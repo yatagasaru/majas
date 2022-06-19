@@ -1,9 +1,9 @@
 import React from 'react'
 import {Box, Text} from '@chakra-ui/react'
 import NextLink from 'next/link'
+import dayjs from 'dayjs'
 
 import {Note} from '../../hooks/useStorage'
-import dayjs from '../../helpers/dayjs'
 // import MoreHorizontal from '../../assets/svgs/MoreHorizontal'
 import NoteOption from '../NoteOption'
 
