@@ -1,5 +1,5 @@
 import {getItem, Key, keys, setItem} from './localStorage'
-import {ImportMeta, Note} from '../hooks/useStorage'
+import {ExportMeta, ImportMeta, Note} from '../hooks/useStorage'
 
 function readNote(key: typeof keys[0], raw?: false): Note[]
 function readNote(key: typeof keys[1], raw?: false): string[]
@@ -36,8 +36,23 @@ function readImportMeta() {
   const importMeta: ImportMeta | null = JSON.parse(getItem('ImportMeta'))
   return importMeta
 }
+function readExportMeta() {
+  const exportMeta: ExportMeta | null = JSON.parse(getItem('ExportMeta'))
+  return exportMeta
+}
+
 function writeImportMetaToStorage(data: ImportMeta) {
   setItem('ImportMeta', JSON.stringify(data))
 }
+function writeExportMetaToStorage(data: ExportMeta) {
+  setItem('ExportMeta', JSON.stringify(data))
+}
 
-export {readNote, writeNoteToStorage, readImportMeta, writeImportMetaToStorage}
+export {
+  readNote,
+  writeNoteToStorage,
+  readImportMeta,
+  readExportMeta,
+  writeImportMetaToStorage,
+  writeExportMetaToStorage
+}

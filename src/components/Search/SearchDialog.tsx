@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   Modal,
-  ModalOverlay,
   ModalContent,
   ModalBody,
   VStack,
@@ -14,6 +13,7 @@ import SearchBox from './SearchBox'
 import SimpleBar from 'simplebar-react'
 import dayjs from '../../helpers/dayjs'
 import useSearch from '../../hooks/useSearch'
+import {Overlay} from '../Modal'
 
 type Props = {
   isOpen: boolean
@@ -37,10 +37,7 @@ const SearchDialog = (props: Props) => {
       size="xl"
       scrollBehavior="inside"
     >
-      <ModalOverlay
-        bg="none"
-        backdropFilter="blur(3px) brightness(50%) sepia(20%)"
-      />
+      <Overlay />
       <ModalContent>
         <SearchBox />
         {searchResults.length ? (

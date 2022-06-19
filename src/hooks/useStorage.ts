@@ -16,8 +16,13 @@ export type ImportMeta = {
   createdAt: string
   deviceName: string
   importedAt: string
+  length: number
 }
 
+export type ExportMeta = {
+  createdAt: string
+  length: number
+}
 export interface NotesDB {
   notes: Note[]
   recentlyOpenedNotes: string[]

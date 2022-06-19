@@ -2,7 +2,8 @@ export const keys = [
   'Notes',
   'RecentlyOpenedNotes',
   'DeviceName',
-  'ImportMeta'
+  'ImportMeta',
+  'ExportMeta'
 ] as const
 export type Key = typeof keys[number]
 

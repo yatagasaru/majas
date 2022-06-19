@@ -1,7 +1,12 @@
 import exportFromJSON from 'export-from-json'
 import {getItem} from '../helpers/localStorage'
 
-import {readNote, writeNoteToStorage} from '../helpers/storage'
+import {
+  readNote,
+  writeExportMetaToStorage,
+  writeImportMetaToStorage,
+  writeNoteToStorage
+} from '../helpers/storage'
 import {Note} from './useStorage'
 
 export type ExportImportData = {
@@ -13,7 +18,7 @@ export type ExportImportData = {
   }
 }
 
-const useFile = () => {
+const useExportImport = () => {
   const exportLocal = () => {
     const notes = readNote('Notes')
     const recentlyOpened = readNote('RecentlyOpenedNotes')
@@ -32,14 +37,26 @@ const useFile = () => {
       }
     }
 
+    writeExportMetaToStorage({
+      createdAt: new Date().toISOString(),
+      length: notes.length
+    })
+
     exportFromJSON({data, fileName, exportType})
   }
 
   const importLocal = async (file: File) => {
-    const parsed = JSON.parse(await file.text()) as ExportImportData
+    try {
+      const parsed = JSON.parse(await file.text()) as ExportImportData
 
-    writeNoteToStorage('Notes', parsed.notes)
-    writeNoteToStorage('RecentlyOpenedNotes', parsed.recentlyOpened)
+      writeNoteToStorage('Notes', parsed.notes)
+      writeNoteToStorage('RecentlyOpenedNotes', parsed.recentlyOpened)
+      writeImportMetaToStorage({
+        ...parsed.meta,
+        importedAt: new Date().toISOString(),
+        length: parsed.notes.length
+      })
+    } catch (err) {}
   }
 
   return {
@@ -48,4 +65,4 @@ const useFile = () => {
   }
 }
 
-export default useFile
+export default useExportImport
