@@ -13,7 +13,7 @@ const NewButton = () => {
   if (active === 'new') return null
   else {
     return (
-      <NextLink href="/new" passHref>
+      <NextLink href="/note/new" passHref>
         <IconButton
           onClick={clearCurrent}
           as="a"

@@ -1,16 +1,14 @@
 import React from 'react'
 import type {NextPage} from 'next'
-
-import Layout from '../components/Layout'
-import NoteList from '../pageComponents/Dashboard/NoteList'
-import RecentlyOpened from '../pageComponents/Dashboard/RecentlyOpened'
+import Fold1 from '../pageComponents/Home/Fold1'
+import Fold2 from '../pageComponents/Home/Fold2/Fold2'
 
 const Home: NextPage = () => {
   return (
-    <Layout display="flex">
-      <RecentlyOpened />
-      <NoteList />
-    </Layout>
+    <>
+      <Fold1 />
+      <Fold2 />
+    </>
   )
 }
 
