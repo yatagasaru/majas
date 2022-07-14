@@ -1,28 +1,12 @@
-import React, {ChangeEvent, useEffect, useRef, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Button,
-  ButtonProps,
-  FormLabel,
   IconButton,
-  Input,
   Menu,
   MenuButton,
   MenuDivider,
   MenuGroup,
   MenuItem,
   MenuList,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   Text,
   useDisclosure,
   VStack
@@ -32,198 +16,11 @@ import MoreVertical from '../../assets/svgs/MoreVertical'
 import pkg from '../../../package.json'
 import {clear, getItem} from '../../helpers/localStorage'
 import useNote from '../../hooks/useNote'
-import Download from '../../assets/svgs/Download'
-import DownloadCloud from '../../assets/svgs/DownloadCloud'
-import Upload from '../../assets/svgs/Upload'
-import UploadCloud from '../../assets/svgs/UploadCloud'
 import Info from '../../assets/svgs/Info'
 import RotateCCW from '../../assets/svgs/RotateCCW'
 import ConfirmationModal from '../ConfirmationModal'
-import {Overlay} from '../Modal'
-import {ExportMeta, ImportMeta} from '../../hooks/useStorage'
-import {readExportMeta, readImportMeta} from '../../helpers/storage'
-import dayjs from 'dayjs'
-import useExportImport from '../../hooks/useExportImport'
-
-const ItemButton = ({
-  icon,
-  title,
-  onClick,
-  display
-}: {
-  icon?: JSX.Element
-  title: string
-  onClick?: ButtonProps['onClick']
-  display?: ButtonProps['display']
-}) => {
-  return (
-    <Button
-      display={display || 'inline-flex'}
-      onClick={onClick}
-      pl="1.5rem"
-      rounded="0"
-      _hover={{bgColor: 'gray.50'}}
-      variant="ghost"
-      fontWeight="normal"
-      w="100%"
-      justifyContent="flex-start"
-      alignItems="center"
-      leftIcon={icon}
-    >
-      {title}
-    </Button>
-  )
-}
-
-const ExportImportAccordion = () => {
-  const {exportLocal, importLocal} = useExportImport()
-
-  const labelRef = useRef<HTMLLabelElement>(null)
-
-  const handleFilePicker = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return
-
-    importLocal(e.target.files[0])
-
-    window.location.replace('/')
-  }
-
-  return (
-    <Accordion allowToggle>
-      <AccordionItem border="none">
-        <h2>
-          <AccordionButton _hover={{bgColor: 'gray.50'}}>
-            <Box flex="1" textAlign="left">
-              Export
-            </Box>
-            <AccordionIcon />
-          </AccordionButton>
-        </h2>
-        <AccordionPanel p="0">
-          <ItemButton
-            icon={<Upload />}
-            onClick={exportLocal}
-            title="Local Export"
-          />
-          <ItemButton
-            display="none"
-            icon={<UploadCloud />}
-            title="Cloud Export"
-          />
-        </AccordionPanel>
-      </AccordionItem>
-
-      <AccordionItem border="none">
-        <h2>
-          <AccordionButton _hover={{bgColor: 'gray.50'}}>
-            <Box flex="1" textAlign="left">
-              Import
-            </Box>
-            <AccordionIcon />
-          </AccordionButton>
-        </h2>
-        <AccordionPanel p="0">
-          <Input
-            display="none"
-            id="localImportFile"
-            name="localImportFile"
-            type="file"
-            accept=".json"
-            onChange={handleFilePicker}
-          />
-          <FormLabel display="none" htmlFor="localImportFile" ref={labelRef} />
-          <ItemButton
-            icon={<Download />}
-            onClick={() => labelRef.current && labelRef.current.click()}
-            title="Local Import"
-          />
-          <ItemButton
-            display="none"
-            icon={<DownloadCloud />}
-            title="Cloud Import"
-          />
-        </AccordionPanel>
-      </AccordionItem>
-    </Accordion>
-  )
-}
-
-const MoreInfoModal = ({
-  isOpen,
-  onClose
-}: {
-  isOpen: boolean
-  onClose: () => void
-}) => {
-  const [importMeta, setImportMeta] = useState<ImportMeta | null>(null)
-  const [exportMeta, setExportMeta] = useState<ExportMeta | null>(null)
-
-  useEffect(() => {
-    setImportMeta(readImportMeta())
-    setExportMeta(readExportMeta())
-  }, [])
-
-  return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered>
-      <Overlay />
-      <ModalContent>
-        <ModalHeader />
-        <ModalCloseButton />
-        <ModalBody>
-          {!importMeta && !exportMeta ? (
-            <Text>No backup activity recorded.</Text>
-          ) : null}
-          {importMeta ? (
-            <>
-              <Text>
-                Last import @{' '}
-                <Box as="span" fontWeight="bold">
-                  {dayjs(importMeta.importedAt).format('LLL')}
-                </Box>
-              </Text>
-              <Text>
-                Consisted of{' '}
-                <Box as="span" fontWeight="bold">
-                  {importMeta.length}
-                </Box>{' '}
-                notes
-              </Text>
-              <Text>
-                From{' '}
-                <Box as="span" fontWeight="bold">
-                  {importMeta.deviceName}
-                </Box>{' '}
-                @{' '}
-                <Box as="span" fontWeight="bold">
-                  {dayjs(importMeta.createdAt).format('LLL')}
-                </Box>
-              </Text>
-            </>
-          ) : null}
-          {exportMeta ? (
-            <>
-              <Text mt="4">
-                Last export @{' '}
-                <Box as="span" fontWeight="bold">
-                  {dayjs(exportMeta.createdAt).format('LLL')}
-                </Box>
-              </Text>
-              <Text>
-                Consisted of{' '}
-                <Box as="span" fontWeight="bold">
-                  {exportMeta.length}
-                </Box>{' '}
-                notes
-              </Text>
-            </>
-          ) : null}
-        </ModalBody>
-
-        <ModalFooter />
-      </ModalContent>
-    </Modal>
-  )
-}
+import ExportImportAccordion from './ExportImportAccordion'
+import MoreInfoModal from './MoreInfoModal'
 
 const MoreButton = () => {
   const {notes} = useNote()
@@ -275,7 +72,7 @@ const MoreButton = () => {
           </VStack>
           <MenuDivider />
           <MenuGroup title="Backup">
-            <ExportImportAccordion />
+            <ExportImportAccordion currentNotesLen={notes.length} />
           </MenuGroup>
           <MenuGroup>
             <MenuItem
