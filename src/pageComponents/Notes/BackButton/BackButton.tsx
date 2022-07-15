@@ -11,7 +11,7 @@ const BackButton = () => {
 
   const onBack = () => {
     clearCurrent()
-    router.replace('/')
+    router.replace('/note')
   }
 
   return (

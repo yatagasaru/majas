@@ -66,7 +66,7 @@ const ExportImportAccordion = ({
       const isImported = await importLocal(e.target.files[0])
 
       if (isImported) {
-        window.location.replace('/')
+        window.location.replace('/note')
       }
     } catch (err) {
       errorToast({
