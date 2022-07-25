@@ -1,5 +1,5 @@
 import React from 'react'
-import {Box, Text} from '@chakra-ui/react'
+import {Box, BoxProps, Text, TextProps} from '@chakra-ui/react'
 import NextLink from 'next/link'
 import dayjs from 'dayjs'
 
@@ -7,18 +7,29 @@ import {Note} from '../../hooks/useStorage'
 // import MoreHorizontal from '../../assets/svgs/MoreHorizontal'
 import NoteOption from '../NoteOption'
 
-const HorizontalNoteCard = ({note}: {note: Note}) => {
+const HorizontalNoteCard = ({
+  note,
+  width,
+  height,
+  noOfLines
+}: {
+  note: Note
+  height?: BoxProps['height']
+  width?: BoxProps['width']
+  noOfLines?: TextProps['noOfLines']
+}) => {
   return (
     <Box
+      flexShrink={0}
       pos="relative"
-      h="250px"
-      w="300px"
+      h={height || '250px'}
+      w={width || '300px'}
       bgColor="whiteAlpha.600"
       p="4"
       rounded="3xl"
     >
       <NextLink href={`/note/${note.id}`} passHref>
-        <Box as="a" h="250px" w="300px">
+        <Box as="a" h="100%" w="100%">
           <Box
             d="flex"
             justifyContent="space-between"
@@ -33,7 +44,7 @@ const HorizontalNoteCard = ({note}: {note: Note}) => {
           </Box>
 
           <Text
-            noOfLines={7}
+            noOfLines={noOfLines || 7}
             mt="2"
             color="primary.600"
             border="1px solid blue"

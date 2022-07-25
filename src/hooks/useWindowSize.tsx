@@ -13,7 +13,7 @@ const useWindowSize = () => {
 
   const isMobile =
     windowSize.height && windowSize.width
-      ? window.innerWidth >= 700 && window.innerHeight >= 700
+      ? window.innerWidth >= 600 && window.innerHeight >= 600
         ? false
         : true
       : true

@@ -6,10 +6,12 @@ import SimpleBar from 'simplebar-react'
 
 import {HorizontalNoteCard} from '../../../components/NoteCard'
 import useNote from '../../../hooks/useNote'
+import useWindowSize from '../../../hooks/useWindowSize'
 
 const {useGlobalState} = createGlobalState({lastScrollY: 0})
 
 const RecentlyOpened = () => {
+  const {isMobile} = useWindowSize()
   const {notes} = useNote()
 
   const scrollableNodeProps = useRef<any>()
@@ -33,17 +35,26 @@ const RecentlyOpened = () => {
   }, [])
 
   return (
-    <Box w="100%" ml="4">
+    <Box
+      w="100%"
+      h={isMobile ? '500px' : 'auto'}
+      mt={isMobile ? '4' : '0'}
+      ml={isMobile ? '0' : '4'}
+    >
       <Box w="100%" h="100%" p="4" bgColor="primary.50" rounded="3xl">
         <SimpleBar
           style={{height: '100%'}}
-          onScroll={e => e}
           scrollableNodeProps={{ref: scrollableNodeProps}}
         >
           <Wrap overflow="hidden">
             {notes.map(note => (
               <WrapItem key={note.id}>
-                <HorizontalNoteCard note={note} />
+                <HorizontalNoteCard
+                  height={isMobile ? '134px' : '250px'}
+                  width={isMobile ? '100%' : '300px'}
+                  noOfLines={isMobile ? 2 : 7}
+                  note={note}
+                />
               </WrapItem>
             ))}
           </Wrap>
