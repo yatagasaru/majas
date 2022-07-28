@@ -45,6 +45,7 @@ const RecentlyOpened = () => {
                 width={isMobile ? '85%' : '100%'}
                 key={note.id}
                 note={note}
+                textHeight="170px"
               />
             ))}
           </Stack>
