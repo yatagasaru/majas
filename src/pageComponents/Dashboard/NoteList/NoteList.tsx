@@ -13,13 +13,32 @@ import useExpandingNoteList from '../../../hooks/useExpandingNoteList'
 const {useGlobalState} = createGlobalState({lastScrollY: 0})
 
 const RecentlyOpened = () => {
-  const {isMobile} = useWindowSize()
+  const {isMobile, windowSize} = useWindowSize()
   const {notes} = useNote()
   const {isNoteListExpanded} = useExpandingNoteList()
 
   const scrollableNodeProps = useRef<any>()
 
   const [lastScrollY, setLastScrollY] = useGlobalState('lastScrollY')
+
+  let lastChildMarginLeft = 'var(--wrap-spacing)'
+  let lastChildMarginRight = 'var(--wrap-spacing)'
+
+  if (windowSize.width && windowSize.width < 971) {
+    lastChildMarginLeft = 'var(--wrap-spacing)'
+    lastChildMarginRight = 'var(--wrap-spacing)'
+  } else if (
+    windowSize.width &&
+    windowSize.width > 971 &&
+    windowSize.width < 1280 &&
+    notes.length % 2 > 0
+  ) {
+    lastChildMarginLeft = 'auto'
+    lastChildMarginRight = 'calc(100% / 2)'
+  } else if (windowSize.width && windowSize.width > 1279) {
+    lastChildMarginLeft = 'var(--wrap-spacing)'
+    lastChildMarginRight = 'auto'
+  }
 
   useEffect(() => {
     const simpleBarRef = scrollableNodeProps.current
@@ -54,7 +73,14 @@ const RecentlyOpened = () => {
           <Wrap
             overflow="hidden"
             justify="center"
-            sx={isMobile ? {'& > *:last-child': {mb: '4'}} : undefined} //quickfix. The parent container padding bottom not respected in mobile screen
+            mb={isMobile ? '4' : '0'} //quickfix. The parent container padding bottom not respected in mobile screen
+            sx={{
+              //to make the <Wrap> child centered but retain left axis alignment
+              '& > ul > *:last-child': {
+                ml: lastChildMarginLeft,
+                mr: lastChildMarginRight
+              }
+            }}
           >
             {notes.map(note => (
               <WrapItem key={note.id} flexGrow={isMobile ? 1 : 0}>
