@@ -62,6 +62,7 @@ const RecentlyOpened = () => {
                   height={isMobile ? '134px' : '250px'}
                   width={isMobile ? '100%' : '300px'}
                   noOfLines={isMobile ? 2 : 7}
+                  textHeight={isMobile ? '50px' : '170px'}
                   note={note}
                 />
               </WrapItem>

@@ -11,12 +11,14 @@ const HorizontalNoteCard = ({
   note,
   width,
   height,
-  noOfLines
+  noOfLines,
+  textHeight
 }: {
   note: Note
   height?: BoxProps['height']
   width?: BoxProps['width']
   noOfLines?: TextProps['noOfLines']
+  textHeight?: TextProps['height']
 }) => {
   return (
     <Box
@@ -29,7 +31,7 @@ const HorizontalNoteCard = ({
       rounded="3xl"
     >
       <NextLink href={`/note/${note.id}`} passHref>
-        <Box as="a" h="100%" w="100%">
+        <Box as="a">
           <Box
             d="flex"
             justifyContent="space-between"
@@ -45,6 +47,7 @@ const HorizontalNoteCard = ({
 
           <Text
             noOfLines={noOfLines || 7}
+            h={textHeight}
             mt="2"
             color="primary.600"
             border="1px solid blue"
