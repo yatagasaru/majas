@@ -57,7 +57,7 @@ const RecentlyOpened = () => {
             sx={isMobile ? {'& > *:last-child': {mb: '4'}} : undefined} //quickfix. The parent container padding bottom not respected in mobile screen
           >
             {notes.map(note => (
-              <WrapItem key={note.id}>
+              <WrapItem key={note.id} flexGrow={isMobile ? 1 : 0}>
                 <HorizontalNoteCard
                   height={isMobile ? '134px' : '250px'}
                   width={isMobile ? '100%' : '300px'}
