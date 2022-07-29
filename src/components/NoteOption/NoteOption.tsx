@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {MouseEvent} from 'react'
 import {
   Menu,
   IconButton,
@@ -23,6 +23,13 @@ const NoteOption = (props: Props) => {
   const {onOpen, isOpen, onClose} = useDisclosure()
   const {removeNote} = useNote()
 
+  const handleOnDeleteClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    onOpen()
+  }
+
   return (
     <>
       <Menu autoSelect={false} colorScheme="primary">
@@ -37,7 +44,7 @@ const NoteOption = (props: Props) => {
         />
         <MenuList fontSize="sm">
           <MenuItem
-            onClick={onOpen}
+            onClick={e => handleOnDeleteClick(e)}
             color="red.500"
             _hover={{backgroundColor: 'red.50'}}
           >

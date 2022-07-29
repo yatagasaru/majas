@@ -8,8 +8,10 @@ import Footer from '../../pageComponents/Notes/Footer'
 import FullPageLoading from '../../components/FullPageLoading'
 import Editor from '../../pageComponents/Notes/Editor'
 import useNote from '../../hooks/useNote'
+import useWindowSize from '../../hooks/useWindowSize'
 
 const Note = () => {
+  const {isMobile} = useWindowSize()
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
   const {getNote} = useNote()
@@ -32,7 +34,12 @@ const Note = () => {
 
   return (
     <Layout>
-      <Container maxW="container.md" h="100%" overflow="hidden">
+      <Container
+        maxW="container.md"
+        h="100%"
+        overflow="hidden"
+        pb={isMobile ? '7' : '0'}
+      >
         <BackButton />
         <Editor />
       </Container>

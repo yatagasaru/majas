@@ -1,23 +1,31 @@
 import React, {ReactNode} from 'react'
 import {Box, BoxProps, Container, ContainerProps} from '@chakra-ui/react'
 import {HEADER_HEIGHT} from '../Header'
+import useWindowSize from '../../hooks/useWindowSize'
 
 type Props = {
   children: ReactNode
   centerContent?: ContainerProps['centerContent']
   display?: ContainerProps['display']
+  flexDir?: ContainerProps['flexDir']
   maxW?: ContainerProps['maxW']
   h?: BoxProps['height']
 }
 
 const Layout = (props: Props) => {
-  const {children, centerContent, display, maxW, h} = props
+  const {isMobile} = useWindowSize()
+  const {children, centerContent, display, maxW, flexDir, h} = props
 
   return (
-    <Box as="main" h={h || `calc(100vh - ${HEADER_HEIGHT}px)`}>
+    <Box
+      as="main"
+      h={h ? h : isMobile ? undefined : `calc(100vh - ${HEADER_HEIGHT}px)`}
+      minH={isMobile ? `calc(100vh - ${HEADER_HEIGHT}px)` : undefined}
+    >
       <Container
         h="100%"
         display={display || 'block'}
+        flexDir={flexDir}
         maxW={maxW || 'container.xl'}
         p="2"
         pb="4"

@@ -9,12 +9,6 @@ a, input, button:focus{
   outline: none;
 }
 
-.homeBg{
-  background-color: #ffffff;
-opacity: 0.4;
-background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #ffffff 40px ), repeating-linear-gradient( #fcf2e455, #fcf2e4 );
-}
-
 /* #noteBox:empty:before{
   content: attr(placeholder);
   color:gray;

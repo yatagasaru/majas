@@ -29,6 +29,8 @@ const initialState: InitialState = {
   index: null
 }
 
+const REC_NOTES_MAX_LEN = 5
+
 const {useGlobalState} = createGlobalState(initialState)
 
 const useNote = () => {
@@ -131,7 +133,7 @@ const useNote = () => {
       recentlyNote => recentlyNote.id !== note.id
     )
 
-    if (newRecently.length === 3) {
+    if (newRecently.length === REC_NOTES_MAX_LEN) {
       newRecently.pop()
       newRecently.unshift(note)
     } else {
