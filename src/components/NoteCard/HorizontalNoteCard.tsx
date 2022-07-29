@@ -39,7 +39,6 @@ const HorizontalNoteCard = ({
             color="primary.300"
             fontWeight="bold"
             letterSpacing="wider"
-            border="1px solid red"
           >
             <Text>{dayjs(note.createdAt).format('DD MMM YYYY')}</Text>
             <Text>{dayjs(note.createdAt).format('HH:mm')}</Text>
@@ -50,7 +49,6 @@ const HorizontalNoteCard = ({
             h={textHeight}
             mt="2"
             color="primary.600"
-            border="1px solid blue"
           >
             {note.text}
           </Text>
