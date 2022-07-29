@@ -10,13 +10,16 @@ import useExpandingNoteList from '../../../hooks/useExpandingNoteList'
 const RecentlyOpened = () => {
   const {isMobile} = useWindowSize()
   const {recentlyOpenedNotes} = useNote()
-  const {isNoteListExpanded} = useExpandingNoteList()
+  const {isNoteListExpanded, setIsNoteListExpanded} = useExpandingNoteList()
 
   return (
     <Box
       h={isMobile ? '326px' : '100%'}
       w={isMobile ? '100%' : '300px'}
       flexShrink={0}
+      onClick={() => {
+        isMobile && setIsNoteListExpanded(false)
+      }}
     >
       <Box
         transition=".5s ease"
