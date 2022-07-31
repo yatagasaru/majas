@@ -15,7 +15,6 @@ const NoteDashboard: NextPage = () => {
       h={`calc(100vh - ${HEADER_HEIGHT}px)`}
       display="flex"
       flexDir={isMobile ? 'column' : 'row'}
-      // display={isMobile ? 'block' : 'flex'}
     >
       <RecentlyOpened />
       <NoteList />

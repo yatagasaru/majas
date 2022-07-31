@@ -12,9 +12,10 @@ import useWindowSize from '../../hooks/useWindowSize'
 
 const Note = () => {
   const {isMobile} = useWindowSize()
-  const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
   const {getNote} = useNote()
+
+  const [isLoading, setIsLoading] = useState(true)
 
   const {noteId} = router.query
 

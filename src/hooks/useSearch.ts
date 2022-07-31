@@ -1,45 +1,81 @@
-import {createGlobalState} from 'react-hooks-global-state'
+import {Index} from 'flexsearch'
 import {debounce} from 'throttle-debounce'
-import useNote from './useNote'
+
+import {setGlobalState, getGlobalState} from '../state'
 import {Note} from './useStorage'
 
-type InitialState = {
-  isIndexSearching: boolean
-  searchResults: Note[]
-}
-
-const initialState: InitialState = {
-  isIndexSearching: false,
-  searchResults: []
-}
-
-const {useGlobalState} = createGlobalState(initialState)
-
 const useSearch = () => {
-  const {index, notes} = useNote()
-
-  const [searchResults, setSearchResults] = useGlobalState('searchResults')
-  const [isIndexSearching, setIsIndexSearching] =
-    useGlobalState('isIndexSearching')
-
   const search = debounce(150, async (serchVal: string) => {
+    const index = getGlobalState('searchIndex')
+
     if (!index) return
 
-    setIsIndexSearching(true)
+    setGlobalState('isIndexSearching', true)
 
     const res = await index.searchAsync(serchVal)
 
-    const results = res.map(id => notes.find(note => note.id === id) as Note)
+    const results = res.map(
+      id => getGlobalState('notes').find(note => note.id === id) as Note
+    )
 
-    setSearchResults(results)
-    setIsIndexSearching(false)
+    setGlobalState('searchResults', results)
+    setGlobalState('isIndexSearching', false)
   })
+
+  const initSearchIndex = async (docs: Note[]) => {
+    const index = getGlobalState('searchIndex')
+
+    if (index instanceof Index) return
+
+    setGlobalState('isIndexBuilding', true)
+
+    const idx = new Index({
+      charset: 'latin:advanced',
+      tokenize: 'reverse',
+      cache: true
+    })
+    for (const note of docs) {
+      await idx.addAsync(note.id, note.text)
+    }
+
+    setGlobalState('searchIndex', idx)
+    setGlobalState('isIndexBuilding', true)
+  }
+
+  const addIndex = async (id: string, text: string) => {
+    const index = getGlobalState('searchIndex')
+
+    if (!index) return
+
+    setGlobalState('isIndexAdding', true)
+
+    await index.addAsync(id, text)
+
+    setGlobalState('isIndexAdding', false)
+  }
+
+  const updateIndex = async (id: string, text: string) => {
+    const index = getGlobalState('searchIndex')
+
+    if (!index) return
+
+    await index.updateAsync(id, text)
+  }
+
+  const removeIndex = async (id: string) => {
+    const index = getGlobalState('searchIndex')
+
+    if (!index) return
+
+    await index.removeAsync(id)
+  }
 
   return {
     search,
-    setSearchResults,
-    searchResults,
-    isIndexSearching
+    initSearchIndex,
+    addIndex,
+    updateIndex,
+    removeIndex
   }
 }
 

@@ -15,6 +15,7 @@ import {AutoScrollPlugin} from '@lexical/react/LexicalAutoScrollPlugin'
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
 
 import useNote from '../../../hooks/useNote'
+import {useGlobalState} from '../../../state'
 
 const theme = {
   ltr: 'ltr',
@@ -34,7 +35,9 @@ const MyCustomAutoFocusPlugin = () => {
 }
 
 const MyCustomNoteInit = () => {
-  const {currentNote, currentNoteId} = useNote()
+  const [currentNote] = useGlobalState('currentNote')
+  const [currentNoteId] = useGlobalState('currentNoteId')
+
   const [editor] = useLexicalComposerContext()
 
   useEffect(() => {

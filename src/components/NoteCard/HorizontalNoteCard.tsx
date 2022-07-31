@@ -4,7 +4,6 @@ import NextLink from 'next/link'
 import dayjs from 'dayjs'
 
 import {Note} from '../../hooks/useStorage'
-// import MoreHorizontal from '../../assets/svgs/MoreHorizontal'
 import NoteOption from '../NoteOption'
 
 const HorizontalNoteCard = ({

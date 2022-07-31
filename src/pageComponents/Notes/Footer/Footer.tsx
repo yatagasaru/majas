@@ -1,9 +1,9 @@
 import React from 'react'
 import {Box, Text} from '@chakra-ui/react'
-import useNote from '../../../hooks/useNote'
+import {useGlobalState} from '../../../state'
 
 const Footer = () => {
-  const {currentNoteCharCount} = useNote()
+  const [currentNoteCharCount] = useGlobalState('currentNoteCharCount')
 
   return (
     <Box

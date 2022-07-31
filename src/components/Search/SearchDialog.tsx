@@ -8,12 +8,12 @@ import {
   Text
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
+import SimpleBar from 'simplebar-react'
 
 import SearchBox from './SearchBox'
-import SimpleBar from 'simplebar-react'
 import dayjs from '../../helpers/dayjs'
-import useSearch from '../../hooks/useSearch'
 import {Overlay} from '../Modal'
+import {useGlobalState} from '../../state'
 
 type Props = {
   isOpen: boolean
@@ -23,7 +23,7 @@ type Props = {
 const SearchDialog = (props: Props) => {
   const {isOpen, onClose} = props
 
-  const {searchResults, setSearchResults} = useSearch()
+  const [searchResults, setSearchResults] = useGlobalState('searchResults')
 
   const onModalClose = () => {
     setSearchResults([])
