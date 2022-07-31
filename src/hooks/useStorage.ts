@@ -3,7 +3,8 @@ import {uniqueNamesGenerator, adjectives, animals} from 'unique-names-generator'
 import {getItem, setItem} from '../helpers/localStorage'
 
 import {readNote, writeNoteToStorage} from '../helpers/storage'
-import useNote from './useNote'
+import {setGlobalState} from '../state'
+import useSearch from './useSearch'
 
 export type Note = {
   id: string
@@ -39,7 +40,7 @@ const initialState: InitialState = {
 const {useGlobalState} = createGlobalState(initialState)
 
 const useStorage = () => {
-  const {setNotes, setRecentlyOpenedNotes, initSearchIndex} = useNote()
+  const {initSearchIndex} = useSearch()
 
   const [isInitialized, setIsInitialized] = useGlobalState('isInitialized')
 
@@ -52,7 +53,7 @@ const useStorage = () => {
       notes = readNote('Notes')
       if (!notes.length) writeNoteToStorage('Notes', [])
       else {
-        setNotes(notes)
+        setGlobalState('notes', notes)
         initSearchIndex(notes)
       }
     } catch (err) {
@@ -74,7 +75,7 @@ const useStorage = () => {
           }
         })
 
-        setRecentlyOpenedNotes(recentlyOpened)
+        setGlobalState('recentlyOpenedNotes', recentlyOpened)
       }
     } catch {
       writeNoteToStorage('RecentlyOpenedNotes', [])

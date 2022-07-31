@@ -15,15 +15,16 @@ import {
 import MoreVertical from '../../assets/svgs/MoreVertical'
 import pkg from '../../../package.json'
 import {clear, getItem} from '../../helpers/localStorage'
-import useNote from '../../hooks/useNote'
 import Info from '../../assets/svgs/Info'
 import RotateCCW from '../../assets/svgs/RotateCCW'
 import ConfirmationModal from '../ConfirmationModal'
 import ExportImportAccordion from './ExportImportAccordion'
 import MoreInfoModal from './MoreInfoModal'
+import {useGlobalState} from '../../state'
 
 const MoreButton = () => {
-  const {notes} = useNote()
+  const [notes] = useGlobalState('notes')
+
   const {
     onOpen: onOpenReset,
     isOpen: isOpenReset,

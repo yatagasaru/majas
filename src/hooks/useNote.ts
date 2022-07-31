@@ -1,66 +1,23 @@
-import {useEffect} from 'react'
-import {createGlobalState} from 'react-hooks-global-state'
-import {Index} from 'flexsearch'
-
+import {getGlobalState, setGlobalState} from '../state'
 import {countCharLength} from '../helpers/string'
 import {Note} from './useStorage'
 import {generate} from '../helpers/nanoid'
 import {writeNoteToStorage} from '../helpers/storage'
-
-type InitialState = {
-  currentNoteCharCount: number
-  notes: Note[]
-  recentlyOpenedNotes: Note[]
-  currentNoteId: string
-  currentNote: Note | null
-  isIndexBuilding: boolean
-  isIndexAdding: boolean
-  index: Index | null
-}
-
-const initialState: InitialState = {
-  currentNoteCharCount: 0,
-  notes: [],
-  recentlyOpenedNotes: [],
-  currentNoteId: '',
-  currentNote: null,
-  isIndexBuilding: false,
-  isIndexAdding: false,
-  index: null
-}
+import useSearch from './useSearch'
 
 const REC_NOTES_MAX_LEN = 5
 
-const {useGlobalState} = createGlobalState(initialState)
-
 const useNote = () => {
-  const [currentNoteCharCount, _setCurrentNoteCharCount] = useGlobalState(
-    'currentNoteCharCount'
-  )
-  const [notes, setNotes] = useGlobalState('notes')
-  const [recentlyOpenedNotes, setRecentlyOpenedNotes] = useGlobalState(
-    'recentlyOpenedNotes'
-  )
-  const [currentNoteId, setCurrentNoteId] = useGlobalState('currentNoteId')
-  const [currentNote, setCurrentNote] = useGlobalState('currentNote')
-
-  const [isIndexBuilding, setIsIndexBuilding] =
-    useGlobalState('isIndexBuilding')
-  const [isIndexAdding, setIsIndexAdding] = useGlobalState('isIndexAdding')
-  const [index, setIndex] = useGlobalState('index')
-
-  useEffect(() => {
-    return () => _setCurrentNoteCharCount(0)
-  }, [])
+  const {addIndex, updateIndex, removeIndex} = useSearch()
 
   const getNote = (id: string) => {
-    const note = notes.find(note => note.id === id)
+    const note = getGlobalState('notes').find(note => note.id === id)
 
-    setCurrentNote(note || null)
+    setGlobalState('currentNote', note || null)
 
     if (note) {
-      setCurrentNoteId(note.id)
-      _setCurrentNoteCharCount(countCharLength(note.text))
+      setGlobalState('currentNoteId', note.id)
+      setCurrentNoteCharCount(note.text)
       updateRecentlyOpened(note)
 
       return true
@@ -70,7 +27,7 @@ const useNote = () => {
   }
 
   const writeNote = async (text: string) => {
-    if (!currentNoteId) {
+    if (!getGlobalState('currentNoteId')) {
       //create new note
       const date = new Date().toISOString()
       const id = await generate()
@@ -82,10 +39,10 @@ const useNote = () => {
         text
       }
 
-      const newNotes = [newNote].concat(notes)
+      const newNotes = [newNote].concat(getGlobalState('notes'))
 
-      setCurrentNoteId(id)
-      setNotes(newNotes)
+      setGlobalState('currentNoteId', id)
+      setGlobalState('notes', newNotes)
       writeNoteToStorage('Notes', newNotes)
       updateRecentlyOpened(newNote)
 
@@ -94,30 +51,32 @@ const useNote = () => {
       //update existing note
       const updatedAt = new Date().toISOString()
 
-      const newNotes = notes.map(note =>
-        note.id === currentNoteId ? {...note, updatedAt, text} : note
+      const newNotes = getGlobalState('notes').map(note =>
+        note.id === getGlobalState('currentNoteId')
+          ? {...note, updatedAt, text}
+          : note
       )
 
-      setNotes(newNotes)
+      setGlobalState('notes', newNotes)
       writeNoteToStorage('Notes', newNotes)
 
-      const newRecentlyOpened = recentlyOpenedNotes
+      const newRecentlyOpened = getGlobalState('recentlyOpenedNotes')
       newRecentlyOpened[0].text = text
       newRecentlyOpened[0].updatedAt = updatedAt
-      setRecentlyOpenedNotes(newRecentlyOpened)
+      setGlobalState('recentlyOpenedNotes', newRecentlyOpened)
 
-      await updateIndex(currentNoteId, text)
+      await updateIndex(getGlobalState('currentNoteId'), text)
     }
   }
 
   const removeNote = (id: string) => {
-    const updatedNotes = notes.filter(note => note.id !== id)
-    const updatedRecentlyOpened = recentlyOpenedNotes.filter(
+    const updatedNotes = getGlobalState('notes').filter(note => note.id !== id)
+    const updatedRecentlyOpened = getGlobalState('recentlyOpenedNotes').filter(
       note => note.id !== id
     )
 
-    setNotes(updatedNotes)
-    setRecentlyOpenedNotes(updatedRecentlyOpened)
+    setGlobalState('notes', updatedNotes)
+    setGlobalState('recentlyOpenedNotes', updatedRecentlyOpened)
 
     writeNoteToStorage('Notes', updatedNotes)
     writeNoteToStorage(
@@ -129,7 +88,7 @@ const useNote = () => {
   }
 
   const updateRecentlyOpened = (note: Note) => {
-    const newRecently: Note[] = recentlyOpenedNotes.filter(
+    const newRecently: Note[] = getGlobalState('recentlyOpenedNotes').filter(
       recentlyNote => recentlyNote.id !== note.id
     )
 
@@ -140,7 +99,7 @@ const useNote = () => {
       newRecently.unshift(note)
     }
 
-    setRecentlyOpenedNotes(newRecently)
+    setGlobalState('recentlyOpenedNotes', newRecently)
 
     writeNoteToStorage(
       'RecentlyOpenedNotes',
@@ -148,74 +107,28 @@ const useNote = () => {
     )
   }
 
-  const setCurrentNoteCharCount = (text: string | null | undefined) => {
-    _setCurrentNoteCharCount(countCharLength(text || ''))
+  const setCurrentNoteCharCount = (
+    input: string | number | null | undefined
+  ) => {
+    if (typeof input === 'number') {
+      setGlobalState('currentNoteCharCount', input)
+    } else {
+      setGlobalState('currentNoteCharCount', countCharLength(input || ''))
+    }
   }
 
   const clearCurrent = () => {
-    setCurrentNote(null)
-    setCurrentNoteId('')
-    _setCurrentNoteCharCount(0)
-  }
-
-  const initSearchIndex = async (docs: Note[]) => {
-    if (index instanceof Index) return
-
-    setIsIndexBuilding(true)
-
-    const idx = new Index({
-      charset: 'latin:advanced',
-      tokenize: 'reverse',
-      cache: true
-    })
-    for (const note of docs) {
-      await idx.addAsync(note.id, note.text)
-    }
-
-    setIndex(idx)
-    setIsIndexBuilding(false)
-  }
-
-  const addIndex = async (id: string, text: string) => {
-    if (!index) return
-
-    setIsIndexAdding(true)
-
-    await index.addAsync(id, text)
-
-    setIsIndexAdding(false)
-  }
-
-  const updateIndex = async (id: string, text: string) => {
-    if (!index) return
-
-    await index.updateAsync(id, text)
-  }
-
-  const removeIndex = async (id: string) => {
-    if (!index) return
-
-    await index.removeAsync(id)
+    setGlobalState('currentNote', null)
+    setGlobalState('currentNoteId', '')
+    setCurrentNoteCharCount(0)
   }
 
   return {
-    currentNoteCharCount,
-    notes,
-    recentlyOpenedNotes,
-    currentNoteId,
-    currentNote,
-    isIndexBuilding,
-    isIndexAdding,
-    index,
-    setNotes,
-    setRecentlyOpenedNotes,
     setCurrentNoteCharCount,
-    setCurrentNoteId,
     getNote,
     writeNote,
     removeNote,
-    clearCurrent,
-    initSearchIndex
+    clearCurrent
   }
 }
 

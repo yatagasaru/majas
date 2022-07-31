@@ -3,14 +3,15 @@ import {Box, Text, Stack} from '@chakra-ui/react'
 import SimpleBar from 'simplebar-react'
 
 import {HorizontalNoteCard} from '../../../components/NoteCard'
-import useNote from '../../../hooks/useNote'
 import useWindowSize from '../../../hooks/useWindowSize'
-import useExpandingNoteList from '../../../hooks/useExpandingNoteList'
+import {useGlobalState} from '../../../state'
 
 const RecentlyOpened = () => {
   const {isMobile} = useWindowSize()
-  const {recentlyOpenedNotes} = useNote()
-  const {isNoteListExpanded, setIsNoteListExpanded} = useExpandingNoteList()
+
+  const [recentlyOpenedNotes] = useGlobalState('recentlyOpenedNotes')
+  const [isNoteListExpanded, setIsNoteListExpanded] =
+    useGlobalState('isNoteListExpanded')
 
   return (
     <Box

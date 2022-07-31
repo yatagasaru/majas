@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react'
 import {Box} from '@chakra-ui/react'
 import useWindowSize from '../../../hooks/useWindowSize'
-import useExpandingNoteList from '../../../hooks/useExpandingNoteList'
+import {useGlobalState} from '../../../state'
 
 const DragBarIcon = () => {
   const {isMobile} = useWindowSize()
-  const {isNoteListExpanded, setIsNoteListExpanded} = useExpandingNoteList()
+  const [isNoteListExpanded, setIsNoteListExpanded] =
+    useGlobalState('isNoteListExpanded')
 
   useEffect(() => {
     if (!isMobile) setIsNoteListExpanded(false)

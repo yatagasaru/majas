@@ -10,13 +10,16 @@ import {
 
 import SearchIcon from '../../assets/svgs/SearchIcon'
 import useSearch from '../../hooks/useSearch'
+import {setGlobalState, useGlobalState} from '../../state'
 
 const SearchBox = () => {
-  const {search, setSearchResults, isIndexSearching} = useSearch()
+  const [isIndexSearching] = useGlobalState('isIndexSearching')
+
+  const {search} = useSearch()
 
   const handleSearch = (searchVal: string) => {
     if (!searchVal || !searchVal.length) {
-      setSearchResults([])
+      setGlobalState('searchResults', [])
     } else {
       search(searchVal)
     }

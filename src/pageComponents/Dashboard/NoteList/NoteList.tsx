@@ -1,25 +1,21 @@
 import React, {useEffect, useLayoutEffect, useRef} from 'react'
 import {Box, Wrap, WrapItem} from '@chakra-ui/react'
-import {createGlobalState} from 'react-hooks-global-state'
 
 import SimpleBar from 'simplebar-react'
 
 import {HorizontalNoteCard} from '../../../components/NoteCard'
-import useNote from '../../../hooks/useNote'
 import useWindowSize from '../../../hooks/useWindowSize'
 import DragBarIcon from './DragBarIcon'
-import useExpandingNoteList from '../../../hooks/useExpandingNoteList'
-
-const {useGlobalState} = createGlobalState({lastScrollY: 0})
+import {useGlobalState} from '../../../state'
 
 const RecentlyOpened = () => {
   const {isMobile, windowSize} = useWindowSize()
-  const {notes} = useNote()
-  const {isNoteListExpanded} = useExpandingNoteList()
+
+  const [notes] = useGlobalState('notes')
+  const [isNoteListExpanded] = useGlobalState('isNoteListExpanded')
+  const [lastScrollY, setLastScrollY] = useGlobalState('lastScrollY')
 
   const scrollableNodeProps = useRef<any>()
-
-  const [lastScrollY, setLastScrollY] = useGlobalState('lastScrollY')
 
   let lastChildMarginLeft = 'var(--wrap-spacing)'
   let lastChildMarginRight = 'var(--wrap-spacing)'
