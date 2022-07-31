@@ -16,6 +16,7 @@ import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
 
 import useNote from '../../../hooks/useNote'
 import {useGlobalState} from '../../../state'
+import {debounce} from 'throttle-debounce'
 
 const theme = {
   ltr: 'ltr',
@@ -24,23 +25,21 @@ const theme = {
   paragraph: 'editor-paragraph'
 }
 
-const MyCustomAutoFocusPlugin = () => {
+const EditorInit = () => {
+  const [currentNote] = useGlobalState('currentNote')
+  const [currentNoteId] = useGlobalState('currentNoteId')
+
+  const {setCurrentNoteCharCount} = useNote()
+
   const [editor] = useLexicalComposerContext()
 
   useEffect(() => {
     editor.focus()
-  }, [editor])
 
-  return null
-}
+    const editorListener = editor.registerTextContentListener(textContent =>
+      setCurrentNoteCharCount(textContent || '')
+    )
 
-const MyCustomNoteInit = () => {
-  const [currentNote] = useGlobalState('currentNote')
-  const [currentNoteId] = useGlobalState('currentNoteId')
-
-  const [editor] = useLexicalComposerContext()
-
-  useEffect(() => {
     if (currentNoteId && currentNote) {
       editor.update(() => {
         const root = $getRoot()
@@ -52,6 +51,8 @@ const MyCustomNoteInit = () => {
         root.collapseAtStart(root.selectEnd())
       })
     }
+
+    return () => editorListener()
   }, [editor, currentNoteId])
 
   return null
@@ -62,7 +63,7 @@ const onError = (error: any) => {
 }
 
 const Editor = () => {
-  const {writeNote, setCurrentNoteCharCount} = useNote()
+  const {writeNote} = useNote()
 
   const simpleBarScrollRef = useRef(null)
   const initialConfig = {
@@ -71,13 +72,12 @@ const Editor = () => {
     onError
   }
 
-  const onChange = (editorState: EditorState) => {
+  const onChange = debounce(300, (editorState: EditorState) => {
     editorState.read(() => {
       const root = $getRoot()
       writeNote(root.__cachedText || '')
-      setCurrentNoteCharCount(root.__cachedText || '')
     })
-  }
+  })
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
@@ -92,9 +92,8 @@ const Editor = () => {
               placeholder={null}
             />
             <OnChangePlugin onChange={onChange} />
-            <MyCustomAutoFocusPlugin />
             <AutoScrollPlugin scrollRef={simpleBarScrollRef} />
-            <MyCustomNoteInit />
+            <EditorInit />
           </Box>
         </SimpleBar>
       </Box>
