@@ -38,7 +38,6 @@ const SearchBox = () => {
           _hover={{borderColor: 'transparent'}}
           _focus={{borderColor: 'transparent'}}
           cursor="pointer"
-          type="tel"
           placeholder="Search your notes..."
           borderColor="transparent"
           bgColor="transparent"
