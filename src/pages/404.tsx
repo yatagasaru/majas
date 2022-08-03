@@ -5,6 +5,7 @@ import NextLink from 'next/link'
 import Footer from '../components/Footer'
 import {HEADER_HEIGHT} from '../components/Header'
 import {GeneralLayout} from '../components/Layout'
+import MetaTags from '../components/MetaTags'
 
 const NotFoundPage: NextPage = () => {
   return (
@@ -15,6 +16,7 @@ const NotFoundPage: NextPage = () => {
       display="flex"
       flexDir="column"
     >
+      <MetaTags page="404" />
       <GeneralLayout centerContent my="auto" color="primary.300">
         <Heading>404</Heading>
         <Heading>Page not found</Heading>

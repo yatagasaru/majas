@@ -12,6 +12,7 @@ import {
 import {GeneralLayout} from '../components/Layout'
 import Footer from '../components/Footer'
 import {HEADER_HEIGHT} from '../components/Header'
+import MetaTags from '../components/MetaTags'
 
 const PricingCard = ({planTitle}: {planTitle: string}) => {
   return (
@@ -41,6 +42,7 @@ const Pricing: NextPage = () => {
       display="flex"
       flexDir="column"
     >
+      <MetaTags page="pricing" />
       <GeneralLayout as="section" centerContent mb="auto">
         <SimpleGrid columns={{base: 1, lg: 3}} spacing="40px" mt="12">
           <PricingCard planTitle="Personal" />
