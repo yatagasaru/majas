@@ -9,6 +9,8 @@ import FullPageLoading from '../../components/FullPageLoading'
 import Editor from '../../pageComponents/Notes/Editor'
 import useNote from '../../hooks/useNote'
 import useWindowSize from '../../hooks/useWindowSize'
+import MetaTags from '../../components/MetaTags'
+import {useGlobalState} from '../../state'
 
 const Note = () => {
   const {isMobile} = useWindowSize()
@@ -16,15 +18,22 @@ const Note = () => {
   const {getNote} = useNote()
 
   const [isLoading, setIsLoading] = useState(true)
+  const [currentNote] = useGlobalState('currentNote')
 
   const {noteId} = router.query
+
+  const pageTitle = currentNote
+    ? currentNote.text.length > 10
+      ? currentNote.text.slice(0, 50) + '...'
+      : currentNote.text
+    : ''
 
   useEffect(() => {
     if (noteId) {
       const isNoteExist = getNote(noteId as string)
 
       if (!isNoteExist) {
-        router.replace('/new')
+        router.replace('/note/new')
       } else {
         setIsLoading(false)
       }
@@ -35,6 +44,7 @@ const Note = () => {
 
   return (
     <Layout>
+      <MetaTags page="app-read" title={`${noteId} - ${pageTitle}`} />
       <Container
         maxW="container.md"
         h="100%"

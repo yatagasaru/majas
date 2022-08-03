@@ -6,6 +6,7 @@ import NoteList from '../../pageComponents/Dashboard/NoteList'
 import RecentlyOpened from '../../pageComponents/Dashboard/RecentlyOpened'
 import useWindowSize from '../../hooks/useWindowSize'
 import {HEADER_HEIGHT} from '../../components/Header'
+import MetaTags from '../../components/MetaTags'
 
 const NoteDashboard: NextPage = () => {
   const {isMobile} = useWindowSize()
@@ -16,6 +17,7 @@ const NoteDashboard: NextPage = () => {
       display="flex"
       flexDir={isMobile ? 'column' : 'row'}
     >
+      <MetaTags page="app-dashboard" />
       <RecentlyOpened />
       <NoteList />
     </Layout>
