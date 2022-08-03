@@ -44,14 +44,20 @@ const useSearch = () => {
 
   const addIndex = async (id: string, text: string) => {
     const index = getGlobalState('searchIndex')
+    const notes = getGlobalState('notes')
 
-    if (!index) return
+    if (!index && !notes.length) return
 
-    setGlobalState('isIndexAdding', true)
+    if (!index) {
+      // first note. create index from global note state
+      initSearchIndex(notes)
+    } else {
+      setGlobalState('isIndexAdding', true)
 
-    await index.addAsync(id, text)
+      await index.addAsync(id, text)
 
-    setGlobalState('isIndexAdding', false)
+      setGlobalState('isIndexAdding', false)
+    }
   }
 
   const updateIndex = async (id: string, text: string) => {
