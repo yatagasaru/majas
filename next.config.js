@@ -11,8 +11,8 @@ const nextConfig = phase => {
   }
   return {
     ...conf,
-    experimental: {
-      outputStandalone: true,
+    output: 'standalone',
+    compiler: {
       removeConsole: {
         exclude: ['error']
       }
