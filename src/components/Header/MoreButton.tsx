@@ -110,7 +110,7 @@ const MoreButton = () => {
         okTitle="Reset"
         onOk={() => {
           clear()
-          window.location.replace('/')
+          window.location.replace('/note')
         }}
       />
     </>
