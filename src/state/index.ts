@@ -27,10 +27,15 @@ type NotesState = {
   currentNote: Note | null
 }
 
+type EditorState = {
+  isEditorProcessing: boolean
+}
+
 type InitialState = LastNoteListScroll &
   ExpandingNoteListState &
   SearchState &
-  NotesState
+  NotesState &
+  EditorState
 
 const initialState: InitialState = {
   isNoteListExpanded: false,
@@ -44,7 +49,8 @@ const initialState: InitialState = {
   recentlyOpenedNotes: [],
   currentNoteCharCount: 0,
   currentNoteId: '',
-  currentNote: null
+  currentNote: null,
+  isEditorProcessing: false
 }
 
 export const {setGlobalState, getGlobalState, useGlobalState} =

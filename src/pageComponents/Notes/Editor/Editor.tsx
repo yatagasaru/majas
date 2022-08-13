@@ -5,6 +5,7 @@ import {
   $createParagraphNode,
   $createTextNode,
   $getRoot,
+  $setSelection,
   EditorState
 } from 'lexical'
 import {LexicalComposer} from '@lexical/react/LexicalComposer'
@@ -15,8 +16,9 @@ import {AutoScrollPlugin} from '@lexical/react/LexicalAutoScrollPlugin'
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
 
 import useNote from '../../../hooks/useNote'
-import {useGlobalState} from '../../../state'
+import {setGlobalState, useGlobalState} from '../../../state'
 import {debounce} from 'throttle-debounce'
+import {countCharLength} from '../../../helpers/string'
 
 const theme = {
   ltr: 'ltr',
@@ -30,15 +32,10 @@ const EditorInit = () => {
   const [currentNoteId] = useGlobalState('currentNoteId')
 
   const {setCurrentNoteCharCount} = useNote()
-
   const [editor] = useLexicalComposerContext()
 
   useEffect(() => {
-    editor.focus()
-
-    const editorListener = editor.registerTextContentListener(textContent =>
-      setCurrentNoteCharCount(textContent || '')
-    )
+    let editorListener = () => {}
 
     if (currentNoteId && currentNote) {
       editor.update(() => {
@@ -49,6 +46,14 @@ const EditorInit = () => {
         root.getFirstChild()?.remove()
         root.append(paragraphNode)
         root.collapseAtStart(root.selectEnd())
+        $setSelection(null)
+
+        editorListener = editor.registerTextContentListener(textContent => {
+          countCharLength(textContent) !== countCharLength(currentNote.text) &&
+            setGlobalState('isEditorProcessing', true)
+
+          setCurrentNoteCharCount(textContent || '')
+        })
       })
     }
 
@@ -73,9 +78,11 @@ const Editor = () => {
   }
 
   const onChange = debounce(300, (editorState: EditorState) => {
-    editorState.read(() => {
+    editorState.read(async () => {
       const root = $getRoot()
-      writeNote(root.__cachedText || '')
+      await writeNote(root.__cachedText || '')
+
+      setGlobalState('isEditorProcessing', false)
     })
   })
 
@@ -91,9 +98,10 @@ const Editor = () => {
               contentEditable={<ContentEditable className="editorInput" />}
               placeholder={null}
             />
-            <OnChangePlugin onChange={onChange} />
+            <OnChangePlugin onChange={onChange} ignoreSelectionChange />
             <AutoScrollPlugin scrollRef={simpleBarScrollRef} />
             <EditorInit />
+            {/* <CharCounter /> */}
           </Box>
         </SimpleBar>
       </Box>
