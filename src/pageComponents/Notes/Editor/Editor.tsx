@@ -35,7 +35,15 @@ const EditorInit = () => {
   const [editor] = useLexicalComposerContext()
 
   useEffect(() => {
-    let editorListener = () => {}
+    const editorListener = editor.registerTextContentListener(textContent => {
+      const isSameLen =
+        countCharLength(textContent) ===
+        countCharLength(currentNote?.text || '')
+
+      setGlobalState('isEditorProcessing', !isSameLen ? true : false)
+
+      setCurrentNoteCharCount(textContent || '')
+    })
 
     if (currentNoteId && currentNote) {
       editor.update(() => {
@@ -47,13 +55,6 @@ const EditorInit = () => {
         root.append(paragraphNode)
         root.collapseAtStart(root.selectEnd())
         $setSelection(null)
-
-        editorListener = editor.registerTextContentListener(textContent => {
-          countCharLength(textContent) !== countCharLength(currentNote.text) &&
-            setGlobalState('isEditorProcessing', true)
-
-          setCurrentNoteCharCount(textContent || '')
-        })
       })
     }
 
