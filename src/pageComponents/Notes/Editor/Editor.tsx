@@ -3,16 +3,16 @@ import {Box} from '@chakra-ui/react'
 import SimpleBar from 'simplebar-react'
 import {
   $createParagraphNode,
-  $createTextNode,
   $getRoot,
   $setSelection,
+  CLEAR_HISTORY_COMMAND,
   EditorState
 } from 'lexical'
 import {LexicalComposer} from '@lexical/react/LexicalComposer'
 import {PlainTextPlugin} from '@lexical/react/LexicalPlainTextPlugin'
 import {ContentEditable} from '@lexical/react/LexicalContentEditable'
 import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin'
-import {AutoScrollPlugin} from '@lexical/react/LexicalAutoScrollPlugin'
+// import {AutoScrollPlugin} from '@lexical/react/LexicalAutoScrollPlugin'
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
 
 import useNote from '../../../hooks/useNote'
@@ -48,12 +48,13 @@ const EditorInit = () => {
     if (currentNoteId && currentNote) {
       editor.update(() => {
         const root = $getRoot()
-        const paragraphNode = $createParagraphNode()
-        const textNode = $createTextNode(currentNote.text)
-        paragraphNode.append(textNode)
-        root.getFirstChild()?.remove()
-        root.append(paragraphNode)
-        root.collapseAtStart(root.selectEnd())
+        const paragrapNode = $createParagraphNode()
+        const selection = paragrapNode.select()
+        selection.insertRawText(currentNote.text)
+        root.append(paragrapNode)
+        // root.getFirstChild()?.remove()
+        editor.dispatchCommand(CLEAR_HISTORY_COMMAND, undefined)
+
         $setSelection(null)
       })
     }
@@ -80,8 +81,7 @@ const Editor = () => {
 
   const onChange = debounce(300, (editorState: EditorState) => {
     editorState.read(async () => {
-      const root = $getRoot()
-      await writeNote(root.__cachedText || '')
+      await writeNote($getRoot().__cachedText || '')
 
       setGlobalState('isEditorProcessing', false)
     })
@@ -97,12 +97,11 @@ const Editor = () => {
           <Box rounded="md" bgColor="primary.50" fontWeight={400}>
             <PlainTextPlugin
               contentEditable={<ContentEditable className="editorInput" />}
-              placeholder={null}
+              placeholder=""
             />
             <OnChangePlugin onChange={onChange} ignoreSelectionChange />
-            <AutoScrollPlugin scrollRef={simpleBarScrollRef} />
+            {/* <AutoScrollPlugin scrollRef={simpleBarScrollRef} /> */}
             <EditorInit />
-            {/* <CharCounter /> */}
           </Box>
         </SimpleBar>
       </Box>
