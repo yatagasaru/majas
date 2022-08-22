@@ -24,7 +24,7 @@ const EnhancedAutoScrollPlugin = () => {
       KEY_ENTER_COMMAND,
       () => {
         enterPressed.current = true
-        return true
+        return false
       },
       COMMAND_PRIORITY_HIGH
     )
