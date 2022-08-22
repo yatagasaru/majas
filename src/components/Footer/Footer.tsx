@@ -16,7 +16,7 @@ const Footer = () => {
           ml="6"
           target="_blank"
           rel="noreferrer noopener"
-          href="https://github.com/yLinktagasaru/majas"
+          href="https://github.com/yatagasaru/majas"
         >
           Github
         </Link>

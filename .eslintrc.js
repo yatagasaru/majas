@@ -44,6 +44,10 @@ module.exports = {
     'no-unused-vars': 'off',
     'react/no-unescaped-entities': 0,
     '@typescript-eslint/no-var-requires': 'off',
-    '@typescript-eslint/no-empty-function': 'off'
+    '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/ban-ts-comment': [
+      'error',
+      {'ts-ignore': 'allow-with-description'}
+    ]
   }
 }

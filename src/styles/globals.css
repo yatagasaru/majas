@@ -15,3 +15,7 @@ a, input, button:focus{
   width: 0;
   height: 0;
 }
+
+.editor-paragraph span{
+  white-space: pre-wrap;
+}

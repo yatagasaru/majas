@@ -3,7 +3,7 @@ import {Container} from '@chakra-ui/react'
 import Layout from '../../components/Layout'
 import BackButton from '../../pageComponents/Notes/BackButton'
 import Footer from '../../pageComponents/Notes/Footer'
-import Editor from '../../pageComponents/Notes/Editor'
+import Editor from '../../components/Editor'
 import useWindowSize from '../../hooks/useWindowSize'
 import MetaTags from '../../components/MetaTags'
 
