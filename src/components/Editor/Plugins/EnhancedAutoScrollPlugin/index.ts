@@ -36,6 +36,7 @@ const EnhancedAutoScrollPlugin = () => {
         if (!$isRangeSelection(selection)) return
 
         const lastChild = $getRoot().getLastChild()
+        // @ts-ignore: undocumented __children props
         const lastChildChild = lastChild?.__children
         const currentChildKey = lastChildChild[lastChildChild.length - 1] || 0
 
