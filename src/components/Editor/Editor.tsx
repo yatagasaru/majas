@@ -6,6 +6,7 @@ import {LexicalComposer} from '@lexical/react/LexicalComposer'
 import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin'
 import {ContentEditable} from '@lexical/react/LexicalContentEditable'
 import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin'
+import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin'
 
 import useNote from '../../hooks/useNote'
 import {setGlobalState} from '../../state'
@@ -74,6 +75,7 @@ const Editor = () => {
             <AutoScrollRichTextPlugin />
             <SavedNoteTransformPlugin />
             <CharCounterPlugin />
+            <HistoryPlugin />
           </Box>
         </SimpleBar>
       </Box>
