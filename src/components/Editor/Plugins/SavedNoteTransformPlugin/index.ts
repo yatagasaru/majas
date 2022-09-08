@@ -5,7 +5,8 @@ import {
   $setSelection,
   $createParagraphNode,
   $createTextNode,
-  $createLineBreakNode
+  $createLineBreakNode,
+  CLEAR_EDITOR_COMMAND
 } from 'lexical'
 
 import {useGlobalState} from '../../../../state'
@@ -16,6 +17,8 @@ const SavedNoteTransformPlugin = () => {
   const [editor] = useLexicalComposerContext()
 
   useEffect(() => {
+    editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined)
+
     if (currentNoteId && currentNote) {
       editor.update(() => {
         const root = $getRoot()
