@@ -66,7 +66,8 @@ const useExportImport = () => {
 
   const importLocal = async (file: File) => {
     try {
-      const parsed = JSON.parse(await file.text()) as ExportImportData
+      const text = await file.text()
+      const parsed = JSON.parse(text) as ExportImportData
 
       const validated = create(parsed, ExportImportData)
 

@@ -2,7 +2,7 @@
 const {PHASE_DEVELOPMENT_SERVER} = require('next/constants')
 
 const conf = {
-  reactStrictMode: true
+  reactStrictMode: false
 }
 
 const nextConfig = phase => {
