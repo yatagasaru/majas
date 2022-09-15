@@ -17,9 +17,9 @@ const SavedNoteTransformPlugin = () => {
   const [editor] = useLexicalComposerContext()
 
   useEffect(() => {
-    editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined)
-
     if (currentNoteId && currentNote) {
+      editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined)
+
       editor.update(() => {
         const root = $getRoot()
 

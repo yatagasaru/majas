@@ -7,7 +7,7 @@ const Footer = () => {
 
   return (
     <Box
-      d="flex"
+      display="flex"
       alignItems="center"
       pos="fixed"
       bottom="1"

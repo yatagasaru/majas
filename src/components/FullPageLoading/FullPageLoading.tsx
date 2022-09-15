@@ -6,12 +6,12 @@ const AuthLoading = () => {
     <Box
       w="100%"
       h="100vh"
-      d="flex"
+      display="flex"
       bgColor="primary.50"
       pos="absolute"
       top="0"
     >
-      <Box m="auto" d="flex" flexDir="column" alignItems="center">
+      <Box m="auto" display="flex" flexDir="column" alignItems="center">
         <Spinner size="xl" colorScheme="primary" />
         <Text color="primary.800">M A J A S</Text>
       </Box>
