@@ -16,7 +16,7 @@ const VerticalNoteCard = ({note}: {note: Note}) => {
         flexBasis="33.3333333333%"
       >
         <Box
-          d="flex"
+          display="flex"
           justifyContent="space-between"
           fontSize="xs"
           color="primary.300"

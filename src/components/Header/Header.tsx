@@ -14,14 +14,14 @@ const Header = () => {
       as="header"
       h={HEADER_HEIGHT + 'px'}
       w="100%"
-      d="flex"
+      display="flex"
       alignItems="center"
       pos="relative"
       zIndex={2}
     >
       <Container
         maxW="container.xl"
-        d="flex"
+        display="flex"
         alignItems="center"
         justifyContent="space-between"
       >
