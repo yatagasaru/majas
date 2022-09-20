@@ -1,19 +1,20 @@
 import React from 'react'
 import {Box} from '@chakra-ui/react'
 import SimpleBar from 'simplebar-react'
-import {EditorState} from 'lexical'
+import {$getRoot, $isParagraphNode, EditorState} from 'lexical'
 import {LexicalComposer} from '@lexical/react/LexicalComposer'
-import {PlainTextPlugin} from '@lexical/react/LexicalPlainTextPlugin'
+import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin'
 import {ContentEditable} from '@lexical/react/LexicalContentEditable'
 import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin'
-import {$convertToMarkdownString, TRANSFORMERS} from '@lexical/markdown'
+import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin'
+import {ClearEditorPlugin} from '@lexical/react/LexicalClearEditorPlugin'
 
 import useNote from '../../hooks/useNote'
 import {setGlobalState} from '../../state'
 import {debounce} from 'throttle-debounce'
 import SavedNoteTransformPlugin from './Plugins/SavedNoteTransformPlugin'
 import CharCounterPlugin from './Plugins/CharCounterPlugin'
-import EnhancedAutoScrollPlugin from './Plugins/EnhancedAutoScrollPlugin'
+import {AutoScrollRichTextPlugin} from './Plugins/EnhancedAutoScrollPlugin'
 
 const theme = {
   ltr: 'ltr',
@@ -37,9 +38,26 @@ const Editor = () => {
 
   const onChange = debounce(300, (editorState: EditorState) => {
     editorState.read(async () => {
-      const markdown = $convertToMarkdownString(TRANSFORMERS)
+      const children = $getRoot().getChildren()
 
-      await writeNote(markdown || '')
+      const plainText = []
+
+      for (let i = 0; i < children.length; i++) {
+        if ($isParagraphNode(children[i])) {
+          if (children[i].isEmpty()) {
+            plainText.push('\n')
+          } else {
+            //firefox for android will append \n when enter pressed
+            //make sure that each paragraph can only contain a single \n
+            plainText.push(
+              children[i].getTextContent().trimEnd() +
+                (i === children.length - 1 ? '' : '\n')
+            )
+          }
+        }
+      }
+
+      await writeNote(plainText.join('') || '')
 
       setGlobalState('isEditorProcessing', false)
     })
@@ -50,14 +68,16 @@ const Editor = () => {
       <Box h="92%" mt="2">
         <SimpleBar style={{height: '100%'}}>
           <Box rounded="md" bgColor="primary.50" fontWeight={400}>
-            <PlainTextPlugin
+            <RichTextPlugin
               contentEditable={<ContentEditable className="editorInput" />}
               placeholder=""
             />
             <OnChangePlugin onChange={onChange} ignoreSelectionChange />
-            <EnhancedAutoScrollPlugin />
+            <AutoScrollRichTextPlugin />
             <SavedNoteTransformPlugin />
             <CharCounterPlugin />
+            <HistoryPlugin />
+            <ClearEditorPlugin />
           </Box>
         </SimpleBar>
       </Box>

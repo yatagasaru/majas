@@ -32,7 +32,7 @@ const HorizontalNoteCard = ({
       <NextLink href={`/note/${note.id}`} passHref>
         <Box as="a">
           <Box
-            d="flex"
+            display="flex"
             justifyContent="space-between"
             fontSize="xs"
             color="primary.300"
