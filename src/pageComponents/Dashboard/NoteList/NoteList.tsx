@@ -7,6 +7,7 @@ import {HorizontalNoteCard} from '../../../components/NoteCard'
 import useWindowSize from '../../../hooks/useWindowSize'
 import DragBarIcon from './DragBarIcon'
 import {useGlobalState} from '../../../state'
+import {notMobile} from '../../../helpers/sx'
 
 const RecentlyOpened = () => {
   const {isMobile, windowSize} = useWindowSize()
@@ -54,11 +55,17 @@ const RecentlyOpened = () => {
 
   return (
     <Box
-      transition={isMobile ? 'margin-top .5s ease' : undefined}
+      sx={notMobile({
+        transition: undefined,
+        h: '100%',
+        mt: '0',
+        ml: '4'
+      })}
+      transition="margin-top .5s ease"
       w="100%"
-      h={isMobile ? 'calc(100% - 60px)' : '100%'}
-      mt={isMobile ? (isNoteListExpanded ? '-16.375rem' : '4') : '0'}
-      ml={isMobile ? '0' : '4'}
+      h="calc(100% - 60px)"
+      mt={isNoteListExpanded ? '-16.375rem' : '4'}
+      ml="0"
     >
       <Box w="100%" h="100%" p="4" pb="5" bgColor="primary.50" rounded="3xl">
         <DragBarIcon />
@@ -81,9 +88,14 @@ const RecentlyOpened = () => {
             {notes.map(note => (
               <WrapItem key={note.id} flexGrow={isMobile ? 1 : 0}>
                 <HorizontalNoteCard
-                  height={isMobile ? '134px' : '250px'}
-                  width={isMobile ? '100%' : '300px'}
-                  noOfLines={isMobile ? 2 : 7}
+                  sx={notMobile({
+                    h: '250px',
+                    w: '300px',
+                    noOfLines: 7
+                  })}
+                  height="134px"
+                  width="100%"
+                  noOfLines={2}
                   textHeight={isMobile ? '50px' : '170px'}
                   note={note}
                 />

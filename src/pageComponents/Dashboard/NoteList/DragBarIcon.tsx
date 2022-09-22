@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import {Box} from '@chakra-ui/react'
 import useWindowSize from '../../../hooks/useWindowSize'
 import {useGlobalState} from '../../../state'
+import {notMobile} from '../../../helpers/sx'
 
 const DragBarIcon = () => {
   const {isMobile} = useWindowSize()
@@ -15,7 +16,10 @@ const DragBarIcon = () => {
   return (
     <Box
       w="100%"
-      display={isMobile ? 'flex' : 'none'}
+      sx={notMobile({
+        display: 'none'
+      })}
+      display="flex"
       pb="4"
       justifyContent="center"
       cursor="pointer"
