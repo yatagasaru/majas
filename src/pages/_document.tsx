@@ -8,6 +8,20 @@ const Document = () => {
       <Head>
         <meta charSet="utf-8" />
         <link
+          rel="preload"
+          href="/assets/fonts/urbanist-latin-variable-wghtOnly-normal.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/assets/fonts/urbanist-latin-ext-variable-wghtOnly-normal.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
           rel="apple-touch-icon"
           sizes="180x180"
           href="/apple-touch-icon.png"
