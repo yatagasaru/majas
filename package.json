@@ -19,7 +19,6 @@
     "@chakra-ui/react": "^2.3.2",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
-    "@fontsource/urbanist": "^4.5.1",
     "@lexical/react": "^0.4.1",
     "dayjs": "^1.11.3",
     "export-from-json": "^1.6.0",

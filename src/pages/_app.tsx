@@ -3,12 +3,10 @@ import type {AppProps} from 'next/app'
 import {ChakraProvider, extendTheme} from '@chakra-ui/react'
 import {createBreakpoints} from '@chakra-ui/theme-tools'
 
-import '@fontsource/urbanist/300.css'
-import '@fontsource/urbanist/variable.css'
+import '../styles/globals.css'
 import 'simplebar/dist/simplebar.min.css'
 
 import {primary} from '../helpers/colors'
-import '../styles/globals.css'
 import Header from '../components/Header'
 import useStorage from '../hooks/useStorage'
 
