@@ -1,5 +1,5 @@
 import React from 'react'
-import {Box, BoxProps, Text, TextProps} from '@chakra-ui/react'
+import {Box, BoxProps, ChakraProps, Text, TextProps} from '@chakra-ui/react'
 import NextLink from 'next/link'
 import dayjs from 'dayjs'
 
@@ -11,16 +11,20 @@ const HorizontalNoteCard = ({
   width,
   height,
   noOfLines,
-  textHeight
+  textHeight,
+  sx
 }: {
   note: Note
   height?: BoxProps['height']
   width?: BoxProps['width']
   noOfLines?: TextProps['noOfLines']
   textHeight?: TextProps['height']
+  sx?: ChakraProps['sx']
 }) => {
+  console.log(sx, 'sx')
   return (
     <Box
+      sx={sx}
       flexShrink={0}
       pos="relative"
       h={height || '250px'}

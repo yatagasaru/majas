@@ -3,12 +3,10 @@ import {Box, Text, Heading, Flex} from '@chakra-ui/react'
 
 import {HEADER_HEIGHT} from '../../../components/Header'
 import {GeneralLayout} from '../../../components/Layout'
-import useWindowSize from '../../../hooks/useWindowSize'
 import OpenAppButton from '../OpenAppButton'
+import {notMobile} from '../../../helpers/sx'
 
 const Fold1 = () => {
-  const {isMobile} = useWindowSize()
-
   return (
     <GeneralLayout as="section">
       <Box
@@ -29,14 +27,20 @@ const Fold1 = () => {
         display="flex"
         flexDir="column"
         justifyContent={{base: 'start', mds: 'center'}}
-        pb={isMobile ? '12' : '0'}
+        sx={notMobile({
+          pb: '0'
+        })}
+        pb="12"
       >
         <Heading
           lineHeight="normal"
           as="h1"
           fontSize={{base: '6xl', mds: '8xl'}}
           fontWeight="black"
-          mt={isMobile ? '12' : '0'}
+          sx={notMobile({
+            mt: '0'
+          })}
+          mt="12"
         >
           Your Day-to-Day
         </Heading>

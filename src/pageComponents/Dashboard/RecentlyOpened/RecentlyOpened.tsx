@@ -5,6 +5,7 @@ import SimpleBar from 'simplebar-react'
 import {HorizontalNoteCard} from '../../../components/NoteCard'
 import useWindowSize from '../../../hooks/useWindowSize'
 import {useGlobalState} from '../../../state'
+import {notMobile} from '../../../helpers/sx'
 
 const RecentlyOpened = () => {
   const {isMobile} = useWindowSize()
@@ -15,19 +16,26 @@ const RecentlyOpened = () => {
 
   return (
     <Box
-      h={isMobile ? '326px' : '100%'}
-      w={isMobile ? '100%' : '300px'}
+      sx={notMobile({
+        h: '100%',
+        w: '300px'
+      })}
+      h="326px"
+      w="100%"
       flexShrink={0}
       onClick={() => {
         isMobile && setIsNoteListExpanded(false)
       }}
     >
       <Box
+        sx={notMobile({
+          pb: '4'
+        })}
         transition=".5s ease"
         w="100%"
         h={isNoteListExpanded ? '60px' : '100%'}
         p="4"
-        pb={isMobile ? '1' : '4'}
+        pb="1"
         bgColor="primary.50"
         rounded="3xl"
         overflow="hidden"
@@ -46,7 +54,10 @@ const RecentlyOpened = () => {
           >
             {recentlyOpenedNotes.map(note => (
               <HorizontalNoteCard
-                width={isMobile ? '85%' : '100%'}
+                sx={notMobile({
+                  width: '100%'
+                })}
+                width="85%"
                 key={note.id}
                 note={note}
                 textHeight="170px"
