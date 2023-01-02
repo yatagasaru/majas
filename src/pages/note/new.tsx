@@ -1,11 +1,10 @@
 import React from 'react'
 import {Container} from '@chakra-ui/react'
 import Layout from '../../components/Layout'
-import BackButton from '../../pageComponents/Notes/BackButton'
-import Footer from '../../pageComponents/Notes/Footer'
 import Editor from '../../components/Editor'
 import useWindowSize from '../../hooks/useWindowSize'
 import MetaTags from '../../components/MetaTags'
+import Header from '../../pageComponents/Notes/Header'
 
 const New = () => {
   const {isMobile} = useWindowSize()
@@ -19,10 +18,9 @@ const New = () => {
         overflow="hidden"
         pb={isMobile ? '7' : '0'}
       >
-        <BackButton />
+        <Header />
         <Editor />
       </Container>
-      <Footer />
     </Layout>
   )
 }
