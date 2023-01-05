@@ -44,12 +44,7 @@ const Note = () => {
   return (
     <Layout>
       <MetaTags page="app-read" title={`${noteId} - ${pageTitle}`} />
-      <Container
-        maxW="container.md"
-        h="100%"
-        overflow="hidden"
-        pb={isMobile ? '7' : '0'}
-      >
+      <Container maxW="container.md" h="100%" pb={isMobile ? '7' : '0'}>
         <Header />
         <Editor />
       </Container>

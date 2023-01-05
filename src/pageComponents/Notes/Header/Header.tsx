@@ -4,7 +4,18 @@ import CharCount from './CharCount'
 
 const Header = () => {
   return (
-    <Box display="flex" alignItems="center" justifyContent="space-between">
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="space-between"
+      position="sticky"
+      top={0}
+      zIndex={1}
+      backgroundColor="white"
+      borderTopWidth="4px"
+      borderBottomWidth="4px"
+      borderColor="white"
+    >
       <BackButton />
       <CharCount />
     </Box>

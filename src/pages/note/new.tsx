@@ -12,12 +12,7 @@ const New = () => {
   return (
     <Layout>
       <MetaTags page="app-new" />
-      <Container
-        maxW="container.md"
-        h="100%"
-        overflow="hidden"
-        pb={isMobile ? '7' : '0'}
-      >
+      <Container maxW="container.md" h="100%" pb={isMobile ? '7' : '0'}>
         <Header />
         <Editor />
       </Container>
