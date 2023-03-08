@@ -13,7 +13,7 @@ test('Should correctly display recently opened sequences', async ({page}) => {
   ])
 
   await page.goto(URL + '/note/' + noteId[0])
-  await sleep(200)
+  await sleep()
   await page.goto(URL + '/note')
   //test note 1 should be the first recently opened note
   expect(
@@ -26,7 +26,7 @@ test('Should correctly display recently opened sequences', async ({page}) => {
   ).toEqual('test note 1')
 
   await page.goto(URL + '/note/' + noteId[1])
-  await sleep(200)
+  await sleep()
   await page.goBack()
   //test note 1 should be the second recently opened note
   expect(
@@ -39,7 +39,7 @@ test('Should correctly display recently opened sequences', async ({page}) => {
   ).toEqual('test note 1')
 
   await page.goto(URL + '/note/' + noteId[2])
-  await sleep(200)
+  await sleep()
   await page.goBack()
   //test note 1 should be the third recently opened note
   expect(

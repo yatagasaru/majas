@@ -3,14 +3,13 @@ import {Container} from '@chakra-ui/react'
 import {useRouter} from 'next/router'
 
 import Layout from '../../components/Layout'
-import BackButton from '../../pageComponents/Notes/BackButton'
-import Footer from '../../pageComponents/Notes/Footer'
 import FullPageLoading from '../../components/FullPageLoading'
 import Editor from '../../components/Editor'
 import useNote from '../../hooks/useNote'
 import useWindowSize from '../../hooks/useWindowSize'
 import MetaTags from '../../components/MetaTags'
 import {useGlobalState} from '../../state'
+import Header from '../../pageComponents/Notes/Header'
 
 const Note = () => {
   const {isMobile} = useWindowSize()
@@ -45,16 +44,10 @@ const Note = () => {
   return (
     <Layout>
       <MetaTags page="app-read" title={`${noteId} - ${pageTitle}`} />
-      <Container
-        maxW="container.md"
-        h="100%"
-        overflow="hidden"
-        pb={isMobile ? '7' : '0'}
-      >
-        <BackButton />
+      <Container maxW="container.md" h="100%" pb={isMobile ? '7' : '0'}>
+        <Header />
         <Editor />
       </Container>
-      <Footer />
     </Layout>
   )
 }

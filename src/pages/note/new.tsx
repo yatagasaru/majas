@@ -1,11 +1,10 @@
 import React from 'react'
 import {Container} from '@chakra-ui/react'
 import Layout from '../../components/Layout'
-import BackButton from '../../pageComponents/Notes/BackButton'
-import Footer from '../../pageComponents/Notes/Footer'
 import Editor from '../../components/Editor'
 import useWindowSize from '../../hooks/useWindowSize'
 import MetaTags from '../../components/MetaTags'
+import Header from '../../pageComponents/Notes/Header'
 
 const New = () => {
   const {isMobile} = useWindowSize()
@@ -13,16 +12,10 @@ const New = () => {
   return (
     <Layout>
       <MetaTags page="app-new" />
-      <Container
-        maxW="container.md"
-        h="100%"
-        overflow="hidden"
-        pb={isMobile ? '7' : '0'}
-      >
-        <BackButton />
+      <Container maxW="container.md" h="100%" pb={isMobile ? '7' : '0'}>
+        <Header />
         <Editor />
       </Container>
-      <Footer />
     </Layout>
   )
 }
