@@ -13,17 +13,16 @@ const NewButton = () => {
   if (active === 'new') return null
   else {
     return (
-      <NextLink href="/note/new" passHref>
-        <IconButton
-          onClick={clearCurrent}
-          as="a"
-          variant="ghost"
-          colorScheme="primary"
-          aria-label="new note"
-        >
-          <Plus />
-        </IconButton>
-      </NextLink>
+      <IconButton
+        onClick={clearCurrent}
+        as={NextLink}
+        href="/note/new"
+        variant="ghost"
+        colorScheme="primary"
+        aria-label="new note"
+      >
+        <Plus />
+      </IconButton>
     )
   }
 }

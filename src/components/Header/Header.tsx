@@ -25,16 +25,15 @@ const Header = () => {
         alignItems="center"
         justifyContent="space-between"
       >
-        <NextLink href="/" passHref>
-          <Heading
-            as="a"
-            size="md"
-            color="primary.600"
-            display={{base: 'none', mds: 'block'}}
-          >
-            M A J A S
-          </Heading>
-        </NextLink>
+        <Heading
+          href="/"
+          as={NextLink}
+          size="md"
+          color="primary.600"
+          display={{base: 'none', mds: 'block'}}
+        >
+          M A J A S
+        </Heading>
         <Search />
         <HStack display="flex">
           <NewButton />
