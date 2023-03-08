@@ -9,9 +9,9 @@ const Footer = () => {
     <GeneralLayout pt="24" as="footer">
       <Flex pb="4" fontSize="sm" color="primary.600">
         <Text mr={{base: 'auto', mds: '24'}}>© Majas App</Text>
-        <NextLink href="/pricing" passHref>
-          <Link>Pricing</Link>
-        </NextLink>
+        <Link as={NextLink} href="/pricing">
+          Pricing
+        </Link>
         <Link
           ml="6"
           target="_blank"

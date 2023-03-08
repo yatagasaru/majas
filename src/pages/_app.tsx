@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react'
 import type {AppProps} from 'next/app'
+import {Urbanist} from 'next/font/google'
 import {ChakraProvider, extendTheme} from '@chakra-ui/react'
 
 import '../styles/globals.css'
@@ -8,6 +9,8 @@ import 'simplebar/dist/simplebar.min.css'
 import {primary} from '../helpers/colors'
 import Header from '../components/Header'
 import useStorage from '../hooks/useStorage'
+
+const urbanist = Urbanist({subsets: ['latin']})
 
 const breakpoints = {
   xxs: '20em', //320px
@@ -22,8 +25,8 @@ const breakpoints = {
 
 const theme = extendTheme({
   fonts: {
-    heading: 'UrbanistVariable',
-    body: 'UrbanistVariable'
+    heading: urbanist.style.fontFamily,
+    body: urbanist.style.fontFamily
   },
   colors: {
     primary: primary()
